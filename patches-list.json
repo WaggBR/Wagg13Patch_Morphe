@@ -1,22 +1,27 @@
 {
+  "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
   "version": "1.0.0",
   "patches": [
     {
-      "name": "Remove Follow Developer popup",
-      "description": "Neutraliza o popup promocional e variações do DevMsg.",
+      "name": "Enable Premium",
+      "description": "Forces the Premium state source before it is recalculated and adds the mod author signature below the Bisbi version.",
       "default": true,
       "dependencies": [],
       "compatiblePackages": [
         {
-          "packageName": "com.instapro.android",
-          "name": "Instagram",
-          "apkFileType": "APK",
+          "packageName": "com.nouxi.bisbi",
+          "name": "Bisbi",
+          "description": null,
+          "apkFileType": null,
+          "appIconColor": null,
+          "signatures": null,
           "targets": [
             {
-              "version": "15.65",
-              "versionCode": 999999,
+              "version": "1.0.2",
+              "versionCodes": null,
               "isExperimental": false,
-              "minSdk": 24
+              "minSdk": null,
+              "description": null
             }
           ]
         }
@@ -24,21 +29,25 @@
       "options": []
     },
     {
-      "name": "Block remote promo config",
-      "description": "Impede busca de JSONs remotos de configuração promocional.",
+      "name": "Tinder Unlimited Rewind",
+      "description": "Enables unlimited rewinds (only). Every other premium feature depends on Tinder's servers and cannot be unlocked by a patch.",
       "default": true,
-      "dependencies": ["Remove Follow Developer popup"],
+      "dependencies": [],
       "compatiblePackages": [
         {
-          "packageName": "com.instapro.android",
-          "name": "Instagram",
-          "apkFileType": "APK",
+          "packageName": "com.tinder",
+          "name": "Tinder",
+          "description": null,
+          "apkFileType": null,
+          "appIconColor": null,
+          "signatures": null,
           "targets": [
             {
-              "version": "15.65",
-              "versionCode": 999999,
+              "version": "17.34.1",
+              "versionCodes": null,
               "isExperimental": false,
-              "minSdk": 24
+              "minSdk": null,
+              "description": null
             }
           ]
         }
@@ -46,65 +55,32 @@
       "options": []
     },
     {
-      "name": "Disable promo button links",
-      "description": "Impede que botões de diálogos promocionais abram URLs.",
+      "name": "Unlock Premium",
+      "description": "Forces the premium entitlement in Native Camera. Premium status is stored locally and controls features such as the sub-40-Mbps bitrate cap. Compatible with v1.4 and v1.4.1 (PairIP was removed in v1.4.1).",
       "default": true,
       "dependencies": [],
       "compatiblePackages": [
         {
-          "packageName": "com.instapro.android",
-          "name": "Instagram",
+          "packageName": "com.rawcam.app",
+          "name": "Native Camera",
+          "description": null,
           "apkFileType": "APK",
+          "appIconColor": "#D0BCFF",
+          "signatures": null,
           "targets": [
             {
-              "version": "15.65",
-              "versionCode": 999999,
+              "version": "1.4",
+              "versionCodes": null,
               "isExperimental": false,
-              "minSdk": 24
-            }
-          ]
-        }
-      ],
-      "options": []
-    },
-    {
-      "name": "Remove promo settings",
-      "description": "Remove as 6 primeiras opções promocionais da tela de configurações.",
-      "default": true,
-      "dependencies": [],
-      "compatiblePackages": [
-        {
-          "packageName": "com.instapro.android",
-          "name": "Instagram",
-          "apkFileType": "APK",
-          "targets": [
+              "minSdk": null,
+              "description": null
+            },
             {
-              "version": "15.65",
-              "versionCode": 999999,
+              "version": "1.4.1",
+              "versionCodes": null,
               "isExperimental": false,
-              "minSdk": 24
-            }
-          ]
-        }
-      ],
-      "options": []
-    },
-    {
-      "name": "Sanitize promo strings",
-      "description": "Remove strings residuais de URLs promocionais dos recursos.",
-      "default": false,
-      "dependencies": [],
-      "compatiblePackages": [
-        {
-          "packageName": "com.instapro.android",
-          "name": "Instagram",
-          "apkFileType": "APK",
-          "targets": [
-            {
-              "version": "15.65",
-              "versionCode": 999999,
-              "isExperimental": false,
-              "minSdk": 24
+              "minSdk": null,
+              "description": null
             }
           ]
         }
