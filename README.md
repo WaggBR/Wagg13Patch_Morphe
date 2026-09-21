@@ -1,91 +1,230 @@
-# 👋🧩 Morphe Patches template
+# 🧩 Wagg13 Morphe Patches
 
-Template repository for Morphe Patches.
+> Curated collection of Morphe patches for premium feature unlocks on Android applications.
 
-## ❓ About
+This repository contains high-quality, actively maintained patches for popular Android apps using the [Morphe](https://morphe.software/) patching framework.
 
-Patches for apps I like.
+---
 
-<!-- TODO: Update this about section with a brief introduction/summary about this repo and what it offers. -->
+## ⚠️ Important Warnings
 
-### How to use these patches
+> 🚫 **No liability for bans.** Using modified apps may violate the terms of service of the applications involved and can lead to warnings, restrictions, or temporary/permanent account bans. **The author is not responsible for any ban, suspension, account restriction, data loss, or any other consequence resulting from the use of these patches.** You use them entirely at your own risk.
 
-Click here to add these patches to Morphe: https://morphe.software/add-source?github=xyz-user/xyz-patches
+> 🔥 **Tinder notice.** The Tinder patch unlocks **Unlimited Rewinds only**. It is **not possible** to enable any other premium feature through a patch, because those features depend on Tinder's servers. This includes the photos of people who liked your profile: those images are already sent **blurred by Tinder's server**, so nothing on the app side can reveal them. Requests to unlock other Tinder features cannot be fulfilled.
 
-## 🩹 Patches list
+---
 
-<!-- PATCHES_START EXPANDED -->
+## 🚀 Quick Start
 
-<!-- Do not modify this section by hand. The patch list is generated when release.yml creates a new release.
-     
-     If you wish for the patches list to be collapsed, then remove the word 'EXPANDED' from the comment tag above.
+### Option 1: Add to Morphe (Recommended)
 
-     If you wish to manually keep this list updated then remove the PATCHES_START and PATCHES_END 
-     comment blocks entirely. -->
+[➕ **Click here to add this patch source directly to Morphe**](https://morphe.software/add-source?github=WaggBR/Wagg13Patch_Morphe)
 
-#### A list of your patches will automatically be shown here after your first patches release is created.
+### Option 2: Manual Installation
 
-&nbsp;
+1. Open **Morphe Manager** on your Android device
+2. Navigate to **Patch Sources**
+3. Add this repository URL:
+   ```
+   https://github.com/WaggBR/Wagg13Patch_Morphe
+   ```
+4. Enable patches from the patch list
+5. Build and install your patched APK
 
-## 🚀 Getting development started
+---
 
-To start using this template, follow these steps:
+## 📋 Available Patches
 
-1. [Setup](https://github.com/MorpheApp/morphe-documentation/blob/main/docs/morphe-development/README.md) your development environment including adding a GitHub PAT as described [here](https://github.com/MorpheApp/morphe-patcher/blob/main/docs/2_1_setup.md#-prepare-the-environment).
-2. [Create a new repository using this template](https://github.com/new?template_name=morphe-patches-template&template_owner=MorpheApp). Select create a new repository, and **enable 'Include all branches'** 
-3. Enable "Allow GitHub Actions to create and approve pull requests" in your repo Settings > Actions > General > Workflow permissions
-4. Update the [build.gradle.kts](patches/build.gradle.kts) file (Specifically, the 
-   [group of the project](patches/build.gradle.kts#L1), and the [About](patches/build.gradle.kts#L6-L11))
-5. Update the [README.md](README.md) file to be specific of your repo, and update the links in the [issue templates](.github/ISSUE_TEMPLATE).
-6. Choose a name for your patches project. Keep in mind you must use a name that does not 
-   imply authorship by the Morphe open source project. If unsure, then simply name these
-   patches after yourself ("UserXYZ Morphe patches"). See the [NOTICE](NOTICE) for details. 
-7. (Optional): Add `patches-bundle.png` to the project if you want a custom icon to show in
-   Morphe Manager instead of your GitHub profile avatar.
-
-🎉 You are now ready to start creating patches!
-
-## 🧑‍💻 Dev usage
-
-To develop and release your Patches using this template:
-
-- **Make all changes to the `dev` branch.**
-- For local development work build your patches using the gradle task `./gradlew buildAndroid` to generate the mpp file found in `patches/build/libs/patches-*.mpp`. Apply your patches locally using Morphe Desktop tool like any other patch bundle.
-- Always use [Semantic commit](https://kapeli.com/cheat_sheets/Semantic_Commits.docset/Contents/Resources/Documents/index) messages for commits. To keep it simple use only 3 commit message types: 
-  - `feat: Added a new feature`
-  - `fix: Some problem now fixed`
-  - `chore: Random change you do not want in the user facing changelog`
-- Commits of `fix:` and `feat:` will automatically generate new pre-releases and `chore:` will not create a new release.
-- Users can apply your dev branch releases by enabling `pre-release` in Morphe Manager patch sources.
-- When your dev branch is ready, and you want a stable release, merge dev branch to main (do not squash, and only merge).
-- **Always use semantic release (release.yml)**. Do not manually upload or create releases by hand
-  because many files must be updated and release.yml handles everything.
-
-## 🤓 Tips
-- See the [patcher documentation](https://github.com/MorpheApp/morphe-patcher/blob/main/docs/1_patcher_intro.md) for more examples of creating patches and fingerprints.
-- Do not use AI to create new release scripts. The `release.yml` here already handles everything.
-  If you need omething custom with your releases then modify the existing `release.yml`
-  and `.releaserc` instead of writing everything new from scratch.
-- Do not manually edit or manually commit any generated files such as: `patches-list.json`,
-  `patches-bundle.json`, `CHANGELOG.md`.  These files will be automatically updated by `release.yml`.
-- Do not force push any semantic release commits as that will break all future releases.
-  If you need to fix a broken release, it's always easiest to create a new release instead of 
-  fixing an existing release.
-
-
-<!-- The patches end tag is intentionally placed here so the first release will clean up 
-     this readme of all developer instructions above. -->
+<!-- PATCHES_START -->
 <!-- PATCHES_END -->
 
-### 🛠️ Building locally
+### Patch Details
 
-- Run `./gradlew buildAndroid`
-- The built patches .mpp file is found in `patches/build/libs/patches-*.mpp`
-- Patch the mpp file using [Morphe-Desktop](https://github.com/MorpheApp/morphe-desktop)
-  like any other patch bundle.
+#### 🔥 Tinder — Rewind Unlock
+- **Package:** `com.tinder`
+- **Functionality:** Unlocks Unlimited Rewinds (only)
+- **Compatibility:** v17.34.1 only (the patch is tied to this exact version)
+- **Status:** ✅ Active & Maintained (BETA)
+- **Limitations:** No other Tinder feature can be enabled by this patch. All other premium features depend on Tinder's servers, including the photos of people who liked your profile, which are already blurred when they arrive from the server. See **Important Warnings** at the top of this page.
+- **Ban risk:** Account restrictions or bans are possible. The author is not responsible for them.
 
-See the [Morphe documentation](https://github.com/MorpheApp/morphe-documentation) for more information.
+#### 📷 Native Camera — Premium Unlock
+- **Package:** `com.rawcam.app`
+- **Functionality:** Enables advanced camera features
+- **Compatibility:** Compatible with all supported devices
+- **Status:** ✅ Active & Maintained (thanks to [Franticg33k](https://github.com/franticg33k/morphe-patches) — I fixed the patch to work with the current version.)
 
-## 📜 License
+#### 📱 Bisbi — Premium Unlock
+- **Package:** `com.nouxi.bisbi`
+- **Functionality:** Removes premium subscription restrictions and enables all app features
+- **Compatibility:** Latest version support
+- **Status:** ✅ Active & Maintained
 
-UserXYZ Patches are licensed under the [GNU General Public License v3.0](LICENSE)
+---
+
+## 🔧 Requirements
+
+- **Morphe Manager** installed on your device
+- **Supported Architecture:** arm64-v8a (primary), others may work but untested
+- **Android:** 8.0 and above
+- **Original APK:** Obtained from official sources (APKMirror, Play Store, etc.)
+
+> ⚠️ **Note:** Patches are tested on arm64-v8a architecture. Other architectures (armeabi-v7a, x86, x86_64) may have compatibility issues.
+
+---
+
+## 📖 Usage Guide
+
+### Building a Patched APK
+
+1. **Prepare your APK:**
+   - Download the original APK for the target app
+   - Ensure it's the correct architecture (arm64-v8a recommended)
+
+2. **Apply patches in Morphe:**
+   - Select the app from the available patches list
+   - Choose the version that matches your APK
+   - Enable desired patches
+   - Configure patch options if available
+
+3. **Generate and Sign:**
+   - Click "Build APK"
+   - Morphe will sign the patched APK automatically
+   - Install the generated APK on your device
+
+### Configuration
+
+Most patches work out-of-the-box with sensible defaults. Some patches may expose configuration options within the app's settings.
+
+---
+
+## 🐛 Reporting Issues
+
+Found a bug or compatibility issue? Help us improve:
+
+1. **Check:** Does the issue persist with the latest patch version?
+2. **Gather:** Collect the following information:
+   - App version tested
+   - Device model and Android version
+   - APK source (APKMirror, Play Store, etc.)
+   - Architecture (arm64-v8a, etc.)
+   - Error logs (if available)
+
+3. **Report:** Open an [issue on GitHub](https://github.com/WaggBR/Wagg13Patch_Morphe/issues) with:
+   ```
+   Title: [App Name] — Brief description of issue
+
+   Details:
+   - App Version: X.Y.Z
+   - Device: [Model]
+   - Android: X
+   - APK Source: [Source]
+   - Architecture: arm64-v8a
+
+   Description:
+   [Detailed explanation of the issue]
+   ```
+
+> ℹ️ Feature requests for other Tinder premium features will be closed, since they depend on Tinder's servers and cannot be done through a patch.
+
+---
+
+## 🛠️ Building from Source
+
+### Prerequisites
+
+- **Git**
+- **JDK 21**
+- **Android SDK** (with `ANDROID_HOME` set)
+- **GitHub personal access token** with `read:packages` (used by Gradle to download Morphe dependencies from GitHub Packages)
+
+### Setup
+
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/WaggBR/Wagg13Patch_Morphe.git
+   cd Wagg13Patch_Morphe
+   ```
+
+2. Set your environment variables:
+   ```bash
+   export ANDROID_HOME="$HOME/Android/Sdk"
+   export GITHUB_ACTOR="your-github-username"
+   export GITHUB_TOKEN="your-github-token"
+   ```
+   Alternatively, put `gpr.user` and `gpr.key` in `~/.gradle/gradle.properties`.
+   **Never** put your token in the project's `gradle.properties` — that file is committed.
+
+3. Build the patch bundle:
+   ```bash
+   ./gradlew buildAndroid
+   ```
+
+4. Find the built patch bundle at:
+   ```
+   patches/build/libs/patches-*.mpp
+   ```
+
+5. Load the `.mpp` file in Morphe (Desktop or Manager) like any other patch bundle.
+
+---
+
+## 📝 License
+
+This project is licensed under the **GNU General Public License v3.0 (GPLv3)** — see the [LICENSE](LICENSE) file for details.
+
+---
+
+## ⚖️ Disclaimer
+
+- This project is provided **as-is** for educational and research purposes.
+- **Use at your own risk. The author is not responsible for account bans, suspensions, restrictions, data loss, or any other consequence of using these patches.**
+- Respect the terms of service of the applications being patched.
+- This tool should only be used for personal, non-commercial purposes.
+- Always download original APKs from official sources.
+- This project is independent and not affiliated with Tinder, Google, Bisbi, or Morphe. All trademarks are the property of their respective owners.
+
+---
+
+## 🤝 Contributing
+
+Interested in contributing? We welcome:
+
+- **Bug reports** with detailed reproduction steps
+- **Feature requests** for new applications to support
+- **Patch improvements** with clear explanations
+- **Documentation** enhancements
+
+Please open an issue or discussion before submitting pull requests for significant changes.
+
+---
+
+## 💬 Support & Feedback
+
+- **Issues:** [GitHub Issues](https://github.com/WaggBR/Wagg13Patch_Morphe/issues)
+- **Discussions:** [GitHub Discussions](https://github.com/WaggBR/Wagg13Patch_Morphe/discussions)
+
+For questions about Morphe itself, visit [Morphe's official documentation](https://morphe.software/).
+
+---
+
+## 📊 Project Statistics
+
+- **Total Patches:** 3 applications
+- **Last Updated:** September 2026
+- **Status:** Actively maintained
+- **Architecture Support:** arm64-v8a (primary)
+
+---
+
+## 🙏 Acknowledgments
+
+- [Morphe Framework](https://morphe.software/) — The powerful patching engine
+- [Franticg33k](https://github.com/franticg33k/morphe-patches) — Original Native Camera patch
+- Android community for continuous feedback and support
+
+---
+
+**Made with ❤️ by Wagner**
+
+Last updated: September 2026

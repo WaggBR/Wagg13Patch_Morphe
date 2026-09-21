@@ -1,5 +1,115 @@
 {
-  "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "0.0.0",
-  "patches": []
+  "version": "1.0.0",
+  "patches": [
+    {
+      "name": "Remove Follow Developer popup",
+      "description": "Neutraliza o popup promocional e variações do DevMsg.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.instapro.android",
+          "name": "Instagram",
+          "apkFileType": "APK",
+          "targets": [
+            {
+              "version": "15.65",
+              "versionCode": 999999,
+              "isExperimental": false,
+              "minSdk": 24
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Block remote promo config",
+      "description": "Impede busca de JSONs remotos de configuração promocional.",
+      "default": true,
+      "dependencies": ["Remove Follow Developer popup"],
+      "compatiblePackages": [
+        {
+          "packageName": "com.instapro.android",
+          "name": "Instagram",
+          "apkFileType": "APK",
+          "targets": [
+            {
+              "version": "15.65",
+              "versionCode": 999999,
+              "isExperimental": false,
+              "minSdk": 24
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Disable promo button links",
+      "description": "Impede que botões de diálogos promocionais abram URLs.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.instapro.android",
+          "name": "Instagram",
+          "apkFileType": "APK",
+          "targets": [
+            {
+              "version": "15.65",
+              "versionCode": 999999,
+              "isExperimental": false,
+              "minSdk": 24
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Remove promo settings",
+      "description": "Remove as 6 primeiras opções promocionais da tela de configurações.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.instapro.android",
+          "name": "Instagram",
+          "apkFileType": "APK",
+          "targets": [
+            {
+              "version": "15.65",
+              "versionCode": 999999,
+              "isExperimental": false,
+              "minSdk": 24
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Sanitize promo strings",
+      "description": "Remove strings residuais de URLs promocionais dos recursos.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.instapro.android",
+          "name": "Instagram",
+          "apkFileType": "APK",
+          "targets": [
+            {
+              "version": "15.65",
+              "versionCode": 999999,
+              "isExperimental": false,
+              "minSdk": 24
+            }
+          ]
+        }
+      ],
+      "options": []
+    }
+  ]
 }
