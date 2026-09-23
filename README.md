@@ -10,8 +10,6 @@ This repository contains high-quality, actively maintained patches for popular A
 
 > 🚫 **No liability for bans.** Using modified apps may violate the terms of service of the applications involved and can lead to warnings, restrictions, or temporary/permanent account bans. **The author is not responsible for any ban, suspension, account restriction, data loss, or any other consequence resulting from the use of these patches.** You use them entirely at your own risk.
 
-> 🔥 **Tinder notice.** The Tinder patch unlocks **Unlimited Rewinds only**. It is **not possible** to enable any other premium feature through a patch, because those features depend on Tinder's servers. This includes the photos of people who liked your profile: those images are already sent **blurred by Tinder's server**, so nothing on the app side can reveal them. Requests to unlock other Tinder features cannot be fulfilled.
-
 ---
 
 ## 🚀 Quick Start
@@ -48,7 +46,7 @@ This repository contains high-quality, actively maintained patches for popular A
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
-| [Enable Premium](#enable-premium) | Forces the Premium state source before it is recalculated and adds the mod author signature below the Bisbi version. |  |
+| [Enable Premium](#enable-premium) | Forces the Premium state source before it is recalculated. |  |
 
 </details>
 
@@ -63,7 +61,7 @@ This repository contains high-quality, actively maintained patches for popular A
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
-| [Tinder Unlimited Rewind](#tinder-unlimited-rewind) | Enables unlimited rewinds (only). Every other premium feature depends on Tinder's servers and cannot be unlocked by a patch. |  |
+| [Tinder Unlimited Rewind](#tinder-unlimited-rewind) | Enables unlimited rewinds (only). Every other premium feature depends on Tinder's servers and cannot be unlocked by a patch.<br><br>⚠️ **Warning:** One UI may cause errors or compatibility issues with the APK when this patch is applied. |  |
 
 </details>
 
@@ -271,6 +269,6 @@ For questions about Morphe itself, visit [Morphe's official documentation](https
 
 ---
 
-**Made with ❤️ by Wagner**
+**Made with ❤️ by Wagg13**
 
 Last updated: September 2026
