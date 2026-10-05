@@ -9,7 +9,6 @@ patches {
         contact = "t.me/wagg13"
         website = "https://github.com/WaggBR"
         license = "GPLv3"
-		version = "1.2.0"
     }
 }
 
