@@ -41,7 +41,7 @@ This repository contains high-quality, actively maintained patches for popular A
 ## 📋 Available Patches
 
 <!-- PATCHES_START -->
-> **[v1.1.0](https://github.com/WaggBR/Wagg13Patch_Morphe/releases/tag/v1.1.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;8 patches total
+> **[v1.1.1](https://github.com/WaggBR/Wagg13Patch_Morphe/releases/tag/v1.1.1)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;8 patches total
 <details open>
 <summary>📦 Bisbi&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>
