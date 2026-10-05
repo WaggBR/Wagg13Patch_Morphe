@@ -41,7 +41,7 @@ This repository contains high-quality, actively maintained patches for popular A
 ## 📋 Available Patches
 
 <!-- PATCHES_START -->
-> **[v1.2.0](https://github.com/WaggBR/Wagg13Patch_Morphe/releases/tag/v1.2.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;7 patches total
+> **[v1.1.0](https://github.com/WaggBR/Wagg13Patch_Morphe/releases/tag/v1.1.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;8 patches total
 <details open>
 <summary>📦 Bisbi&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>
@@ -53,22 +53,64 @@ This repository contains high-quality, actively maintained patches for popular A
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
-| [Enable Premium](#enable-premium) | Forces the Premium state source before it is recalculated. |  |
+| [Enable Premium](#enable-premium) | Forces the Premium state source before it is recalculated and adds the mod author signature below the Bisbi version. |  |
 
 </details>
 
 <details open>
-<summary>📦 Tinder&nbsp;&nbsp;•&nbsp;&nbsp;2 patch</summary>
+<summary>📦 com.guochao.faceshow&nbsp;&nbsp;•&nbsp;&nbsp;2 patches</summary>
 <br>
 
 **🎯 Supported versions:**
 
-| 17.34.1 |
+| 3.2.90 |
 | :---: |
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
-| [Tinder Unlimited Rewind](#tinder-unlimited-rewind) | Allows unlimited rewinds (only) and removes ads between profile swipes. Every other premium feature depends on Tinder's servers and cannot be unlocked by a patch.<br><br>⚠️ **Warning:** One UI may cause errors or compatibility issues with the APK when this patch is applied. |  |
+| [Hide live room notice](#hide-live-room-notice) | Removes the 'healthy live streaming' notice shown in every live chat. |  |
+| [Unlock SVIP](#unlock-svip) | Unlocks SVIP features, blocks purchase flow and Unity Ads. |  |
+
+</details>
+
+<details open>
+<summary>📦 Instagram Instants&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
+<br>
+
+**🎯 Supported versions:**
+
+| 444.0.0.45.108 |
+| :---: |
+
+| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
+|----------|----------------|-----------|
+| [Instants Mod](#instants-mod) | Support for posting photos from the gallery to Instants via the gallery icon on the home screen. |  |
+
+</details>
+
+<details open>
+<summary>📦 Instagram&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
+<br>
+
+**🎯 Supported versions:**
+
+| 439.0.0.37.89 |
+| :---: |
+
+| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
+|----------|----------------|-----------|
+| [Story mention indicator](#story-mention-indicator) | Shows an "@N mention" pill in the story header when the story mentions someone. Tap it to list and open the mentioned profiles. |  |
+
+</details>
+
+<details open>
+<summary>📦 com.tinder&nbsp;&nbsp;•&nbsp;&nbsp;2 patches</summary>
+<br>
+
+| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
+|----------|----------------|-----------|
+| [Tinder Remove Ads](#tinder-remove-ads) | Remove os anúncios exibidos entre os perfis do deck de swipe. |  |
+| [Tinder Unlimited Rewind](#tinder-unlimited-rewind) | Bypasses the paywall check and enables unlimited REWIND on FREE accounts. |  |
 
 </details>
 
@@ -84,52 +126,6 @@ This repository contains high-quality, actively maintained patches for popular A
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
 | [Unlock Premium](#unlock-premium) | Forces the premium entitlement in Native Camera. Premium status is stored locally and controls features such as the sub-40-Mbps bitrate cap. Compatible with v1.4 and v1.4.1 (PairIP was removed in v1.4.1). |  |
-
-</details>
-
-<details open>
-<summary>📦 Instagram&nbsp;&nbsp;•&nbsp;&nbsp;1 patch&nbsp;&nbsp;🧪 BETA</summary>
-<br>
-
-**🎯 Supported versions:**
-
-| 439.0.0.37.89 |
-| :---: |
-
-| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
-|----------|----------------|-----------|
-| [Story Mention Badge](#story-mention-badge) | Shows a bubble with "@" and the tag count on Story mentions. 🧪 BETA — v439.0.0.37.89 only. |  |
-
-</details>
-
-<details open>
-<summary>📦 Instants&nbsp;&nbsp;•&nbsp;&nbsp;1 patch&nbsp;&nbsp;🧪 BETA</summary>
-<br>
-
-**🎯 Supported versions:**
-
-| 444.0.0.45.108 |
-| :---: |
-
-| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
-|----------|----------------|-----------|
-| [Instant Gallery Post](#instant-gallery-post) | Lets you post images straight from the phone's gallery to Stories as if they had just been captured live. 🧪 BETA — v444.0.0.45.108 only. |  |
-
-</details>
-
-<details open>
-<summary>📦 BuzzCast&nbsp;&nbsp;•&nbsp;&nbsp;2 patches&nbsp;&nbsp;🧪 BETA</summary>
-<br>
-
-**🎯 Supported versions:**
-
-| 3.2.90 |
-| :---: |
-
-| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
-|----------|----------------|-----------|
-| [Unlock SVIP](#-buzzcast--unlock-svip--hide-live-notice) | Unlocks SVIP state on the client, blocks the in-app purchase flow and Unity Ads. 🧪 BETA — v3.2.90 only. Based on [rushiranpise's patch](https://github.com/rushiranpise/morphe-patches), with the launch crash fixed. |  |
-| [Hide live room notice](#-buzzcast--unlock-svip--hide-live-notice) | Hides the "healthy live streaming" notice that is shown in the chat of every live room. 🧪 BETA — v3.2.90 only. |  |
 
 </details>
 
