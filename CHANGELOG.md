@@ -1,3 +1,9 @@
+## [1.1.0](https://github.com/WaggBR/Wagg13Patch_Morphe/compare/v1.0.0...v1.1.0) (2026-10-05)
+
+### ✨ New Features
+
+* add Instants, BuzzCast, Story Mention Icon and Tinder Remove Ads patches ([a83110a](https://github.com/WaggBR/Wagg13Patch_Morphe/commit/a83110a9a924710332d5b5fa8144a2320f9c1bab))
+
 ## 1.0.0 (2026-09-21)
 
 ### ✨ New Features
