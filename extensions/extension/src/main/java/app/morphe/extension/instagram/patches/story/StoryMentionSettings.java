@@ -33,6 +33,7 @@ public final class StoryMentionSettings {
     private static final String PREFS = "wagg13_story_mention";
     private static final String KEY_ENABLED = "pill_enabled";
     private static final String KEY_STYLE = "pill_style";
+    private static final String KEY_POPUP_STYLE = "popup_style";
 
     private StoryMentionSettings() {
     }
@@ -96,6 +97,24 @@ public final class StoryMentionSettings {
     private static void setStyle(Context context, int style) {
         styleCache = style;
         prefs(context).edit().putInt(KEY_STYLE, style).apply();
+    }
+
+    private static volatile Integer popupStyleCache;
+
+    /** One of StoryMentionPopup.STYLE_*; the minimalist centered popup by default. */
+    public static int popupStyle(Context context) {
+        Integer cached = popupStyleCache;
+        if (cached == null) {
+            int stored = prefs(context).getInt(KEY_POPUP_STYLE, StoryMentionPopup.STYLE_MINIMAL);
+            cached = stored >= 0 && stored < StoryMentionPopup.STYLE_COUNT ? stored : StoryMentionPopup.STYLE_MINIMAL;
+            popupStyleCache = cached;
+        }
+        return cached;
+    }
+
+    private static void setPopupStyle(Context context, int style) {
+        popupStyleCache = style;
+        prefs(context).edit().putInt(KEY_POPUP_STYLE, style).apply();
     }
 
     private static SharedPreferences prefs(Context context) {
@@ -183,6 +202,60 @@ public final class StoryMentionSettings {
                     checks.get(k).setVisibility(k == style ? View.VISIBLE : View.INVISIBLE);
                 }
                 StoryMentionIcon.refresh();
+            });
+            LinearLayout.LayoutParams cardLp = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            cardLp.bottomMargin = dp(context, 8);
+            content.addView(card, cardLp);
+        }
+
+        // Popup style: how the list of mentioned accounts looks when the bubble is tapped.
+        TextView popupSection = new TextView(context);
+        popupSection.setText(pt() ? "Estilo do popup de menções" : "Mentions popup style");
+        popupSection.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        popupSection.setPadding(0, dp(context, 12), 0, dp(context, 8));
+        content.addView(popupSection);
+
+        List<TextView> popupChecks = new ArrayList<>();
+        int popupSelected = popupStyle(context);
+        for (int i = 0; i < StoryMentionPopup.STYLE_COUNT; i++) {
+            final int style = i;
+            LinearLayout card = new LinearLayout(context);
+            card.setOrientation(LinearLayout.HORIZONTAL);
+            card.setGravity(Gravity.CENTER_VERTICAL);
+            card.setPadding(dp(context, 14), dp(context, 12), dp(context, 14), dp(context, 12));
+            GradientDrawable cardBg = new GradientDrawable();
+            cardBg.setColor(0xFF3A3F47);
+            cardBg.setCornerRadius(dp(context, 12));
+            card.setBackground(cardBg);
+
+            LinearLayout texts = new LinearLayout(context);
+            texts.setOrientation(LinearLayout.VERTICAL);
+            TextView name = new TextView(context);
+            name.setText(StoryMentionPopup.styleName(style, pt()));
+            name.setTextColor(Color.WHITE);
+            name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+            texts.addView(name);
+            TextView description = new TextView(context);
+            description.setText(StoryMentionPopup.styleDescription(style, pt()));
+            description.setTextColor(0xFFB6BDC6);
+            description.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+            texts.addView(description);
+            card.addView(texts, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+
+            TextView check = new TextView(context);
+            check.setText("\u2713");
+            check.setTextColor(Color.WHITE);
+            check.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+            check.setVisibility(style == popupSelected ? View.VISIBLE : View.INVISIBLE);
+            popupChecks.add(check);
+            card.addView(check);
+
+            card.setOnClickListener(v -> {
+                setPopupStyle(context, style);
+                for (int k = 0; k < popupChecks.size(); k++) {
+                    popupChecks.get(k).setVisibility(k == style ? View.VISIBLE : View.INVISIBLE);
+                }
             });
             LinearLayout.LayoutParams cardLp = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

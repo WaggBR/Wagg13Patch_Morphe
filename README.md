@@ -15,7 +15,7 @@ This repository contains high-quality, actively maintained patches for popular A
 
 > 🚫 **No liability for bans.** Using modified apps may violate the terms of service of the applications involved and can lead to warnings, restrictions, or temporary/permanent account bans. **The author is not responsible for any ban, suspension, account restriction, data loss, or any other consequence resulting from the use of these patches.** You use them entirely at your own risk.
 
-> 🧪 **Beta patches.** The *Instant Gallery Post* (Instants), *Story Mention Badge* (Instagram) and both *BuzzCast* patches (*Unlock SVIP* and *Hide live room notice*) are currently in **BETA**. Each is pinned to a single exact app version and may behave unexpectedly, stop working, or need re-testing after an app update.
+> 🧪 **Beta patches.** The *Instant Gallery Post* (Instants) and *Story Mention Badge* (Instagram) patches are currently in **BETA**. Each is pinned to a single exact app version and may behave unexpectedly, stop working, or need re-testing after an app update.
 
 ---
 
@@ -41,7 +41,7 @@ This repository contains high-quality, actively maintained patches for popular A
 ## 📋 Available Patches
 
 <!-- PATCHES_START -->
-> **[v1.2.0](https://github.com/WaggBR/Wagg13Patch_Morphe/releases/tag/v1.2.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;8 patches total
+> **[v1.1.1](https://github.com/WaggBR/Wagg13Patch_Morphe/releases/tag/v1.1.1)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;16 patches total
 <details open>
 <summary>📦 Bisbi&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>
@@ -58,16 +58,19 @@ This repository contains high-quality, actively maintained patches for popular A
 </details>
 
 <details open>
-<summary>📦 com.guochao.faceshow&nbsp;&nbsp;•&nbsp;&nbsp;2 patches</summary>
+<summary>📦 BuzzCast&nbsp;&nbsp;•&nbsp;&nbsp;5 patches</summary>
 <br>
 
 **🎯 Supported versions:**
 
-| 3.2.90 |
+| 3.2.92 |
 | :---: |
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
+| [Hide home banner](#hide-home-banner) | Hides the promotional banner carousel shown in the middle of the home live list. |  |
+| [Hide join and follow messages](#hide-join-and-follow-messages) | Hides the "joined" and "followed the streamer" messages in the live chat and the join banner at the top. |  |
+| [Hide live room cards](#hide-live-room-cards) | Hides the rotating event/honor wall/daily recharge cards in the corner of live rooms. |  |
 | [Hide live room notice](#hide-live-room-notice) | Removes the 'healthy live streaming' notice shown in every live chat. |  |
 | [Unlock SVIP](#unlock-svip) | Unlocks SVIP features, blocks purchase flow and Unity Ads. |  |
 
@@ -104,13 +107,52 @@ This repository contains high-quality, actively maintained patches for popular A
 </details>
 
 <details open>
-<summary>📦 com.tinder&nbsp;&nbsp;•&nbsp;&nbsp;2 patches</summary>
+<summary>📦 Tinder&nbsp;&nbsp;•&nbsp;&nbsp;4 patches</summary>
 <br>
+
+**🎯 Supported versions:**
+
+| 17.34.1 | 17.37.3 |
+| :---: | :---: |
+
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
-| [Tinder Remove Ads](#tinder-remove-ads) | Remove os anúncios exibidos entre os perfis do deck de swipe. |  |
-| [Tinder Unlimited Rewind](#tinder-unlimited-rewind) | Bypasses the paywall check and enables unlimited REWIND on FREE accounts. |  |
+| [Remove ads](#remove-ads) | Removes ads displayed between profiles in the swipe deck. |  |
+| [Remove upsells](#remove-upsells) | Removes sponsored messages in chat and upsell pop-ups for Likes You and Boost. |  |
+| [Spoof signature](#spoof-signature) | Spoofs the Tinder package signature to restore push notifications. | recommended to apply |
+| [Unlimited Rewind](#unlimited-rewind) | Removes signature verification and enables Rewind locally. |  |
+
+</details>
+
+<details open>
+<summary>📦 Car Scanner&nbsp;&nbsp;•&nbsp;&nbsp;2 patches</summary>
+<br>
+
+**🎯 Supported versions:**
+
+| 2.1.50 |
+| :---: |
+
+| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
+|----------|----------------|-----------|
+| [Remove ads](#remove-ads) | Disables AdMob ads and the consent form. |  |
+| [Unlock Pro](#unlock-pro) | Makes Car Scanner believe the Pro version was purchased through Google Play Billing. |  |
+
+</details>
+
+<details open>
+<summary>📦 Pinterest&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
+<br>
+
+**🎯 Supported versions:**
+
+| 14.39.0 | 14.40.0 |
+| :---: | :---: |
+
+| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
+|----------|----------------|-----------|
+| [Trash bubble on pin long press](#trash-bubble-on-pin-long-press) | Replaces the WhatsApp bubble in the long-press menu of a saved Pin with a trash can that deletes the Pin. |  |
 
 </details>
 
@@ -133,13 +175,28 @@ This repository contains high-quality, actively maintained patches for popular A
 
 ### Patch Details
 
-#### 🔥 Tinder — Rewind Unlock & No ADS
+#### 🔥 Tinder — Rewind Unlock, Ad Removal & Fewer Upsells
 - **Package:** `com.tinder`
-- **Functionality:** Unlocks Unlimited Rewinds (only) & ads blocker
-- **Compatibility:** v17.34.1 only (the patch is tied to this exact version)
-- **Status:** ✅ Active & Maintained (BETA)
-- **Limitations:** No other Tinder feature can be enabled by this patch. All other premium features depend on Tinder's servers, including the photos of people who liked your profile, which are already blurred when they arrive from the server. See **Important Warnings** at the top of this page.
+- **Functionality:** Enables Unlimited Rewinds locally, removes ads from the swipe deck, hides sponsored messages and Likes You/Boost upsells, and can spoof the original package signature for push notifications.
+- **Compatibility:** v17.34.1 and v17.37.3 only
+- **Status:** ✅ Active & Maintained (stable)
+- **Options:** **Spoof signature** is disabled by default; enable it only if you need push notifications.
+- **Limitations:** No other Tinder premium feature can be enabled by these patches. All other premium features depend on Tinder's servers, including the photos of people who liked your profile, which are already blurred when they arrive from the server. See **Important Warnings** at the top of this page.
 - **Ban risk:** ⚠️ Account restrictions or bans are possible. The author is not responsible for them.
+
+#### 🚗 Car Scanner — Pro Unlock & Ad Removal
+- **Package:** `com.ovz.carscanner`
+- **Functionality:** Unlocks the Pro state locally and disables AdMob banner, interstitial, app-open and rewarded ads, as well as the consent form.
+- **Compatibility:** v2.1.50 only
+- **Status:** ✅ Active & Maintained
+- **Limitations:** The Pro state is simulated locally. Features or services validated by Car Scanner's servers remain unavailable.
+
+#### 📌 Pinterest — Trash Bubble on Pin Long Press
+- **Package:** `com.pinterest`
+- **Functionality:** Replaces the WhatsApp action in the long-press menu of a saved Pin with a trash-can action that deletes the Pin.
+- **Compatibility:** v14.39.0 and v14.40.0 only
+- **Status:** ✅ Active & Maintained
+- **Limitations:** The trash action is available only for Pins owned by the current account.
 
 #### 📷 Native Camera — Premium Unlock
 - **Package:** `com.rawcam.app`
@@ -167,18 +224,19 @@ This repository contains high-quality, actively maintained patches for popular A
 - **Status:** 🧪 **Beta** — Errors and Bugs are expected.
 - **Ban risk:** ⚠️ Account restrictions or bans are possible. The author is not responsible for them.
 
-#### 🎥 BuzzCast — Unlock SVIP & Hide Live Notice
+#### 🎥 BuzzCast — Unlock SVIP & Live Room Cleanup
 - **Package:** `com.guochao.faceshow`
 - **Functionality:**
   - **Unlock SVIP:** forces the SVIP state on the client side (VIP level, VIP flag, expiry and badge), stubs the Google Play purchase flow and disables Unity Ads (including the related ad permissions/activities in the manifest).
   - **Hide live room notice:** removes the "healthy live streaming" message that is posted to the chat every time you enter a live room.
-- **Compatibility:** v3.2.90 only (the patches are tied to this exact version — the notice patch relies on a version-specific resource ID)
-- **Status:** 🧪 **Beta** — Errors and Bugs are expected.
+  - **Hide join and follow messages:** hides the "joined" and "followed the streamer" messages in the live chat and the join banner at the top.
+  - **Hide live room cards:** hides the rotating event/honor wall/daily recharge cards in the corner of live rooms.
+  - **Hide home banner:** hides the promotional banner carousel shown in the middle of the home live list.
+- **Compatibility:** v3.2.92 only (the patches are tied to this exact version — the notice patch relies on a version-specific resource ID)
+- **Status:** ✅ Active & Maintained
 - **Limitations:** Only what is decided on the client can be unlocked. Anything that depends on BuzzCast's servers (for example gifts or paid content validated server-side) cannot be unlocked by a patch.
 - **Ban risk:** ⚠️ Account restrictions or bans are possible. The author is not responsible for them.
-- **Credits & what changed:** the SVIP patch is based on the original work of **[rushiranpise](https://github.com/rushiranpise/morphe-patches)** — full credit to them for the original idea and implementation. In our tests, the original patch made BuzzCast close a few seconds after opening (on both 3.2.86 and 3.2.90). The Android log showed a `java.lang.VerifyError` on `com.unity3d.ads.UnityAds` ("bad exception entry: startAddr=0 endAddr=0"): the original code wiped the whole body of the Unity Ads methods but left their `try/catch` blocks behind, so Android's verifier rejected the class. Our version never deletes instructions; it only inserts an early return at the start of each method, which keeps the bytecode valid. Other improvements:
-  - Re-checked every patched class and method against the 3.2.90 DEX (the old `BuyVipViewModel` stubs no longer exist in this version and were dropped).
-  - Merged the VIP, billing and Unity Ads changes (plus the manifest cleanup) into a single **Unlock SVIP** patch.
+- **Credits & what changed:** the SVIP patch is based on the original work of **[rushiranpise](https://github.com/rushiranpise/morphe-patches)** — full credit to them for the original idea and implementation.
   - New **Hide live room notice** patch (not in the original).
 
 
@@ -307,7 +365,7 @@ This project is licensed under the **GNU General Public License v3.0 (GPLv3)** �
 - Respect the terms of service of the applications being patched.
 - This tool should only be used for personal, non-commercial purposes.
 - Always download original APKs from official sources.
-- This project is independent and not affiliated with Tinder, Google, Bisbi, Instagram, Instants, BuzzCast, or Morphe. All trademarks are the property of their respective owners.
+- This project is independent and not affiliated with Tinder, Google, Bisbi, Instagram, Instants, BuzzCast, Car Scanner, Pinterest, or Morphe. All trademarks are the property of their respective owners.
 
 ---
 
@@ -350,7 +408,7 @@ For questions about Morphe itself, visit [Morphe's official documentation](https
 
 ## 📊 Project Statistics
 
-- **Total Patches:** 6 applications (7 patches)
+- **Total Patches:** 8 applications (16 patches)
 - **Last Updated:** October 2026
 - **Status:** Actively maintained
 - **Architecture Support:** arm64-v8a (primary)

@@ -3,5 +3,9 @@ extension {
 }
 
 android {
-    namespace = "app.morphe.extension.instapro"
+    namespace = "app.morphe.extension.common"
+}
+
+dependencies {
+    implementation("org.lsposed.hiddenapibypass:hiddenapibypass:6.1")
 }

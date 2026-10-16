@@ -8,7 +8,6 @@
 package app.morphe.extension.instagram.patches.story;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -41,7 +40,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.WeakHashMap;
 
@@ -92,8 +91,7 @@ public final class StoryMentionIcon {
      * looked up in the active item's own view (the ReelViewGroup held by its view holder), not in the
      * fragment's view: otherwise the first header found may belong to another item.
      */
-    public static void update(Object fragmentObject, Object reelItem, Object holder,
-                              String mentionsMethod, String usernameMethod) {
+    public static void update(Object fragmentObject, Object reelItem, Object holder, String methodNames) {
         try {
             if (reelItem == null) return;
             View root = itemRoot(holder);
@@ -109,12 +107,12 @@ public final class StoryMentionIcon {
             Activity activity = activityOf(root.getContext());
             if (activity != null) activityRef = new WeakReference<>(activity);
 
-            List<String> usernames = readMentions(reelItem, mentionsMethod, usernameMethod);
-            Log.w(TAG, "update: mentions=" + usernames.size() + " " + usernames
+            List<StoryMentionPopup.Mention> mentions = readMentions(reelItem, new Names(methodNames));
+            Log.w(TAG, "update: mentions=" + mentions.size() + " " + mentions
                     + " root=" + source + "@" + Integer.toHexString(System.identityHashCode(root)));
             int token = ++bindingCounter;
             BINDINGS.put(root, token);
-            bind(root, usernames, token, 0);
+            bind(root, mentions, token, 0);
         } catch (Throwable t) {
             Log.e(TAG, "update failed", t);
         }
@@ -137,7 +135,7 @@ public final class StoryMentionIcon {
     /** Re-applies the on/off setting to every pill. */
     public static void refresh() {
         try {
-            for (Pill pill : new ArrayList<>(PILLS.keySet())) apply(pill, pill.usernames);
+            for (Pill pill : new ArrayList<>(PILLS.keySet())) apply(pill, pill.mentions);
         } catch (Throwable t) {
             Log.e(TAG, "refresh failed", t);
         }
@@ -145,23 +143,39 @@ public final class StoryMentionIcon {
 
     // ---- data ----------------------------------------------------------------------------
 
-    private static List<String> readMentions(Object reelItem, String mentionsMethod, String usernameMethod)
-            throws Exception {
+    /** Obfuscated method names resolved at patch time: "mentions|username|fullName|picUrl|verified". */
+    private static final class Names {
+        final String mentions;
+        final String username;
+        final String fullName;
+        final String picUrl;
+        final String verified;
+
+        Names(String packed) {
+            String[] parts = packed.split("\\|", -1);
+            mentions = parts.length > 0 ? parts[0] : "";
+            username = parts.length > 1 ? parts[1] : "";
+            fullName = parts.length > 2 ? parts[2] : "";
+            picUrl = parts.length > 3 ? parts[3] : "";
+            verified = parts.length > 4 ? parts[4] : "";
+        }
+    }
+
+    private static List<StoryMentionPopup.Mention> readMentions(Object reelItem, Names names) throws Exception {
         // ReelItem has more than one Media field (the final one is the story's own media, which is
         // what Piko reads). Try the final one first, then any other, and take the first with mentions.
         for (Object media : mediaCandidates(reelItem)) {
             Object dict = firstFieldOfType(media, MEDIA_DICT);
             if (dict == null) continue;
-            List<String> names = readNames(dict, mentionsMethod, usernameMethod);
-            if (!names.isEmpty()) return names;
+            List<StoryMentionPopup.Mention> result = readNames(dict, names);
+            if (!result.isEmpty()) return result;
         }
         return new ArrayList<>();
     }
 
-    private static List<String> readNames(Object dict, String mentionsMethod, String usernameMethod)
-            throws Exception {
-        Object list = invokeNoArg(dict, mentionsMethod);
-        LinkedHashSet<String> result = new LinkedHashSet<>();
+    private static List<StoryMentionPopup.Mention> readNames(Object dict, Names names) throws Exception {
+        Object list = invokeNoArg(dict, names.mentions);
+        LinkedHashMap<String, StoryMentionPopup.Mention> result = new LinkedHashMap<>();
         if (!(list instanceof List)) return new ArrayList<>();
 
         for (Object mention : (List<?>) list) {
@@ -169,10 +183,30 @@ public final class StoryMentionIcon {
             Object user = callReturning(mention, USER);
             Object userDict = user == null ? null : firstFieldOfType(user, USER_DICT);
             if (userDict == null) continue;
-            Object name = invokeNoArg(userDict, usernameMethod);
-            if (name instanceof String && !((String) name).isEmpty()) result.add((String) name);
+            Object username = invokeNoArg(userDict, names.username);
+            if (!(username instanceof String) || ((String) username).isEmpty()) continue;
+            if (result.containsKey(username)) continue;
+
+            // Optional details for the popup: a failure here must never lose the mention itself.
+            String fullName = "";
+            String picUrl = "";
+            boolean verified = false;
+            try {
+                Object name = names.fullName.isEmpty() ? null : invokeNoArg(userDict, names.fullName);
+                if (name instanceof String) fullName = (String) name;
+                Object image = names.picUrl.isEmpty() ? null : invokeNoArg(userDict, names.picUrl);
+                if (image != null) {
+                    Object url = image.getClass().getMethod("getUrl").invoke(image);
+                    if (url instanceof String) picUrl = (String) url;
+                }
+                Object flag = names.verified.isEmpty() ? null : invokeNoArg(userDict, names.verified);
+                verified = Boolean.TRUE.equals(flag);
+            } catch (Throwable t) {
+                Log.w(TAG, "could not read details of @" + username, t);
+            }
+            result.put((String) username, new StoryMentionPopup.Mention((String) username, fullName, picUrl, verified));
         }
-        return new ArrayList<>(result);
+        return new ArrayList<>(result.values());
     }
 
     private static List<Object> mediaCandidates(Object reelItem) throws Exception {
@@ -235,7 +269,7 @@ public final class StoryMentionIcon {
 
     /** The pill: a TextView that remembers the mentions it shows. */
     private static final class Pill extends TextView {
-        List<String> usernames = new ArrayList<>();
+        List<StoryMentionPopup.Mention> mentions = new ArrayList<>();
         int appliedStyle = -1;
 
         Pill(Context context) {
@@ -248,34 +282,34 @@ public final class StoryMentionIcon {
      * makes sure it contains the pill and applies the mentions to it. A newer binding of the same
      * story view cancels the retries of an older one.
      */
-    private static void bind(View root, List<String> usernames, int token, int attempt) {
+    private static void bind(View root, List<StoryMentionPopup.Mention> mentions, int token, int attempt) {
         Integer current = BINDINGS.get(root);
         if (current == null || current != token) return;
 
         View title = root.findViewById(titleId(root.getContext()));
-        if (usernames.isEmpty()) {
+        if (mentions.isEmpty()) {
             // Nothing to show: only hide a pill this header already has, never add one.
             Pill existing = title == null ? null : findPill(title);
-            if (existing != null) apply(existing, usernames);
+            if (existing != null) apply(existing, mentions);
             return;
         }
 
         Pill pill = title == null ? null : ensurePill(title);
         if (pill == null) {
             if (attempt < MAX_RETRIES) {
-                root.postDelayed(() -> bind(root, usernames, token, attempt + 1), RETRY_DELAY_MS);
+                root.postDelayed(() -> bind(root, mentions, token, attempt + 1), RETRY_DELAY_MS);
             } else {
                 Log.w(TAG, "header or its layout not usable after retries (title="
                         + (title == null ? "null" : title.getClass().getName()) + ")");
             }
             return;
         }
-        apply(pill, usernames);
+        apply(pill, mentions);
     }
 
-    private static void apply(Pill pill, List<String> usernames) {
-        pill.usernames = usernames;
-        if (usernames.isEmpty() || !StoryMentionSettings.isEnabled(pill.getContext())) {
+    private static void apply(Pill pill, List<StoryMentionPopup.Mention> mentions) {
+        pill.mentions = mentions;
+        if (mentions.isEmpty() || !StoryMentionSettings.isEnabled(pill.getContext())) {
             pill.setVisibility(View.GONE);
             return;
         }
@@ -284,9 +318,9 @@ public final class StoryMentionIcon {
             applyStyle(pill, style);
             pill.appliedStyle = style;
         }
-        int count = usernames.size();
+        int count = mentions.size();
         pill.setText("@" + count + (count == 1 ? " mention" : " mentions"));
-        pill.setOnClickListener(v -> showMentions(v.getContext(), pill.usernames));
+        pill.setOnClickListener(v -> showMentions(v.getContext(), pill.mentions));
         pill.setVisibility(View.VISIBLE);
     }
 
@@ -573,19 +607,13 @@ public final class StoryMentionIcon {
 
     // ---- dialog / navigation -------------------------------------------------------------
 
-    private static void showMentions(Context viewContext, List<String> usernames) {
+    private static void showMentions(Context viewContext, List<StoryMentionPopup.Mention> mentions) {
         Activity activity = activityOf(viewContext);
         if (activity == null || activity.isFinishing()) {
-            Log.w(TAG, "no Activity available to show the mentions dialog");
+            Log.w(TAG, "no Activity available to show the mentions popup");
             return;
         }
-        String[] items = new String[usernames.size()];
-        for (int i = 0; i < items.length; i++) items[i] = "@" + usernames.get(i);
-        new AlertDialog.Builder(activity)
-                .setTitle(items.length == 1 ? "Mention" : "Mentions")
-                .setItems(items, (dialog, which) -> openProfile(activity, usernames.get(which)))
-                .setNegativeButton(android.R.string.cancel, null)
-                .show();
+        StoryMentionPopup.show(activity, mentions);
     }
 
     /**
@@ -594,7 +622,7 @@ public final class StoryMentionIcon {
      * activity (what Piko's openUrl does) starts it but nothing opens on 439, and no UrlHandlerActivity
      * start follows in the activity manager log. Logged at WARN while this is being diagnosed.
      */
-    private static void openProfile(Context context, String username) {
+    static void openProfile(Context context, String username) {
         Uri uri = Uri.parse("instagram://user?username=" + Uri.encode(username));
         try {
             Intent intent = new Intent();

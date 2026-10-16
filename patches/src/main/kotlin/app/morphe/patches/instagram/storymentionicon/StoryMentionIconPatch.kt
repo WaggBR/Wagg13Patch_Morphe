@@ -87,6 +87,30 @@ internal object StoryMenuClickFingerprint : Fingerprint(
     strings = listOf("explore_viewer", "friendships/mute_friend_reel/%s/", "[INTERNAL] Pause Playback"),
 )
 
+/** LiveTreeUserDict getter of `full_name` (the setter with the same key takes a parameter). */
+internal object FullNameGetterFingerprint : Fingerprint(
+    definingClass = USER_DICT_CLASS,
+    returnType = "Ljava/lang/String;",
+    parameters = listOf(),
+    strings = listOf("full_name"),
+)
+
+/** LiveTreeUserDict getter of `profile_pic_url` (returns ImageUrl, whose getUrl() is not obfuscated). */
+internal object ProfilePicGetterFingerprint : Fingerprint(
+    definingClass = USER_DICT_CLASS,
+    returnType = "Lcom/instagram/common/typedurl/ImageUrl;",
+    parameters = listOf(),
+    strings = listOf("profile_pic_url"),
+)
+
+/** LiveTreeUserDict getter of `is_verified`. */
+internal object VerifiedGetterFingerprint : Fingerprint(
+    definingClass = USER_DICT_CLASS,
+    returnType = "Ljava/lang/Boolean;",
+    parameters = listOf(),
+    strings = listOf("is_verified"),
+)
+
 private fun Method.readsLiveTreeStringWithoutLiteralKey(): Boolean {
     val instructions = implementation?.instructions ?: return false
     var reads = false
@@ -129,10 +153,16 @@ val storyMentionIconPatch = bytecodePatch(
     execute {
         val mentionsMethod = ReelMentionsGetterFingerprint.method.name
         val usernameMethod = UsernameGetterFingerprint.method.name
+        // Only used by the popup (names, pictures, badge): a miss must not break the indicator itself.
+        val fullNameMethod = runCatching { FullNameGetterFingerprint.method.name }.getOrDefault("")
+        val picUrlMethod = runCatching { ProfilePicGetterFingerprint.method.name }.getOrDefault("")
+        val verifiedMethod = runCatching { VerifiedGetterFingerprint.method.name }.getOrDefault("")
+        val methodNames = listOf(mentionsMethod, usernameMethod, fullNameMethod, picUrlMethod, verifiedMethod)
+            .joinToString("|")
 
         CurrentActiveStoryItemFingerprint.method.apply {
             val locals = implementation!!.registerCount - parameterTypes.size - 1
-            if (locals < 5) throw PatchException("Hook method has $locals locals, need at least 5")
+            if (locals < 4) throw PatchException("Hook method has $locals locals, need at least 4")
 
             // Instance method: p0 = fragment, p1 = ReelItem, p2 = item view holder.
             addInstructions(
@@ -141,9 +171,8 @@ val storyMentionIconPatch = bytecodePatch(
                 move-object/from16 v0, p0
                 move-object/from16 v1, p1
                 move-object/from16 v2, p2
-                const-string v3, "$mentionsMethod"
-                const-string v4, "$usernameMethod"
-                invoke-static {v0, v1, v2, v3, v4}, $EXTENSION_CLASS->update(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;)V
+                const-string v3, "$methodNames"
+                invoke-static {v0, v1, v2, v3}, $EXTENSION_CLASS->update(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/String;)V
                 """.trimIndent(),
             )
         }
