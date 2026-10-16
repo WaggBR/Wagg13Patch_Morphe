@@ -58,7 +58,7 @@ This repository contains high-quality, actively maintained patches for popular A
 </details>
 
 <details open>
-<summary>📦 com.guochao.faceshow&nbsp;&nbsp;•&nbsp;&nbsp;5 patches</summary>
+<summary>📦 BuzzCast&nbsp;&nbsp;•&nbsp;&nbsp;5 patches</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -92,7 +92,7 @@ This repository contains high-quality, actively maintained patches for popular A
 </details>
 
 <details open>
-<summary>📦 com.ovz.carscanner&nbsp;&nbsp;•&nbsp;&nbsp;2 patches</summary>
+<summary>📦 CarScanner&nbsp;&nbsp;•&nbsp;&nbsp;2 patches</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -108,7 +108,7 @@ This repository contains high-quality, actively maintained patches for popular A
 </details>
 
 <details open>
-<summary>📦 com.tinder&nbsp;&nbsp;•&nbsp;&nbsp;4 patches</summary>
+<summary>📦 Tinder&nbsp;&nbsp;•&nbsp;&nbsp;4 patches</summary>
 <br>
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
@@ -136,7 +136,7 @@ This repository contains high-quality, actively maintained patches for popular A
 </details>
 
 <details open>
-<summary>📦 com.pinterest&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
+<summary>📦 Pinterest&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>
 
 **🎯 Supported versions:**
