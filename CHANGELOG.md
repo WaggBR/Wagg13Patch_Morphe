@@ -1,3 +1,9 @@
+## [1.3.0](https://github.com/WaggBR/Wagg13Patch_Morphe/compare/v1.2.0...v1.3.0) (2026-10-16)
+
+### ✨ New Features
+
+* add Car Scanner and Pinterest patches, update Tinder and BuzzCast ([f6df240](https://github.com/WaggBR/Wagg13Patch_Morphe/commit/f6df24078ce53ae4c1ed8e1391412d0eee66764a))
+
 ## [1.2.0](https://github.com/WaggBR/Wagg13Patch_Morphe/compare/v1.1.1...v1.2.0) (2026-10-16)
 
 ### 🐛 Bug Fixes

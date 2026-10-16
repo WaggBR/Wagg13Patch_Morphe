@@ -41,7 +41,7 @@ This repository contains high-quality, actively maintained patches for popular A
 ## 📋 Available Patches
 
 <!-- PATCHES_START -->
-> **[v1.1.1](https://github.com/WaggBR/Wagg13Patch_Morphe/releases/tag/v1.1.1)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;16 patches total
+> **[v1.3.0](https://github.com/WaggBR/Wagg13Patch_Morphe/releases/tag/v1.3.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;16 patches total
 <details open>
 <summary>📦 Bisbi&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>
@@ -58,7 +58,7 @@ This repository contains high-quality, actively maintained patches for popular A
 </details>
 
 <details open>
-<summary>📦 BuzzCast&nbsp;&nbsp;•&nbsp;&nbsp;5 patches</summary>
+<summary>📦 com.guochao.faceshow&nbsp;&nbsp;•&nbsp;&nbsp;5 patches</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -92,6 +92,35 @@ This repository contains high-quality, actively maintained patches for popular A
 </details>
 
 <details open>
+<summary>📦 com.ovz.carscanner&nbsp;&nbsp;•&nbsp;&nbsp;2 patches</summary>
+<br>
+
+**🎯 Supported versions:**
+
+| 2.1.50 |
+| :---: |
+
+| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
+|----------|----------------|-----------|
+| [Remove ads](#remove-ads) | Disables AdMob ads (banner, interstitial, app open, rewarded) and the consent form. |  |
+| [Unlock Pro](#unlock-pro) | Makes Car Scanner believe the Pro version was purchased (Google Play Billing). |  |
+
+</details>
+
+<details open>
+<summary>📦 com.tinder&nbsp;&nbsp;•&nbsp;&nbsp;4 patches</summary>
+<br>
+
+| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
+|----------|----------------|-----------|
+| [Spoof signature](#spoof-signature) | Spoof the Tinder package signature to fix push notifications (Enable to get notifications). |  |
+| [Tinder Remove Ads](#tinder-remove-ads) | Removes ads displayed between profiles in the swipe deck. |  |
+| [Tinder Remove Upsells](#tinder-remove-upsells) | Remove sponsored messages in the chat and upsell pop-ups (Likes You, Boost). |  |
+| [Tinder Unlimited Rewind](#tinder-unlimited-rewind) | Remove signature verification and enable Rewind locally. |  |
+
+</details>
+
+<details open>
 <summary>📦 Instagram&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>
 
@@ -107,42 +136,7 @@ This repository contains high-quality, actively maintained patches for popular A
 </details>
 
 <details open>
-<summary>📦 Tinder&nbsp;&nbsp;•&nbsp;&nbsp;4 patches</summary>
-<br>
-
-**🎯 Supported versions:**
-
-| 17.34.1 | 17.37.3 |
-| :---: | :---: |
-
-
-| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
-|----------|----------------|-----------|
-| [Remove ads](#remove-ads) | Removes ads displayed between profiles in the swipe deck. |  |
-| [Remove upsells](#remove-upsells) | Removes sponsored messages in chat and upsell pop-ups for Likes You and Boost. |  |
-| [Spoof signature](#spoof-signature) | Spoofs the Tinder package signature to restore push notifications. | recommended to apply |
-| [Unlimited Rewind](#unlimited-rewind) | Removes signature verification and enables Rewind locally. |  |
-
-</details>
-
-<details open>
-<summary>📦 Car Scanner&nbsp;&nbsp;•&nbsp;&nbsp;2 patches</summary>
-<br>
-
-**🎯 Supported versions:**
-
-| 2.1.50 |
-| :---: |
-
-| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
-|----------|----------------|-----------|
-| [Remove ads](#remove-ads) | Disables AdMob ads and the consent form. |  |
-| [Unlock Pro](#unlock-pro) | Makes Car Scanner believe the Pro version was purchased through Google Play Billing. |  |
-
-</details>
-
-<details open>
-<summary>📦 Pinterest&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
+<summary>📦 com.pinterest&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -152,7 +146,7 @@ This repository contains high-quality, actively maintained patches for popular A
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
-| [Trash bubble on pin long press](#trash-bubble-on-pin-long-press) | Replaces the WhatsApp bubble in the long-press menu of a saved Pin with a trash can that deletes the Pin. |  |
+| [Trash bubble on pin long press](#trash-bubble-on-pin-long-press) | Replace the WhatsApp bubble in the long-press menu of a saved PIN with atrash can that deletes the PIN. |  |
 
 </details>
 
