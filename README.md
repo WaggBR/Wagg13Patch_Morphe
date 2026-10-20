@@ -9,6 +9,12 @@
 
 This repository contains high-quality, actively maintained patches for popular Android apps using the [Morphe](https://morphe.software/) patching framework.
 
+<div align="center">
+  <a href="https://buymeacoffee.com/wagg13" target="_blank">
+    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="50" />
+  </a>
+</div>
+
 ---
 
 ## ⚠️ Important Warnings
@@ -429,7 +435,7 @@ Last updated: October 2026
 If these patches save you time, consider supporting development:
 
 <div align="center">
-  <a href="https://buymeacoffee.com/mkr_infinity" target="_blank">
+  <a href="https://buymeacoffee.com/wagg13" target="_blank">
     <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="50" />
   </a>
 </div>
