@@ -47,24 +47,9 @@ This repository contains high-quality, actively maintained patches for popular A
 ## 📋 Available Patches
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.3.0](https://github.com/WaggBR/Wagg13Patch_Morphe/releases/tag/v1.3.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;29 patches total
+> **[v1.4.0](https://github.com/WaggBR/Wagg13Patch_Morphe/releases/tag/v1.4.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;28 patches total
 <details open>
-<summary>📦 Bisbi&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
-<br>
-
-**🎯 Supported versions:**
-
-| 1.0.2 |
-| :---: |
-
-| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
-|----------|----------------|-----------|
-| [Enable Premium](#enable-premium) | Forces the Premium state source before it is recalculated and adds the mod author signature below the Bisbi version. |  |
-
-</details>
-
-<details open>
-<summary>📦 BuzzCast&nbsp;&nbsp;•&nbsp;&nbsp;11 patches</summary>
+<summary>📦 com.guochao.faceshow&nbsp;&nbsp;•&nbsp;&nbsp;11 patches</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -89,12 +74,60 @@ This repository contains high-quality, actively maintained patches for popular A
 </details>
 
 <details open>
+<summary>📦 Picsart&nbsp;&nbsp;•&nbsp;&nbsp;4 patches</summary>
+<br>
+
+**🎯 Supported versions:**
+
+| 30.9.5 |
+| :---: |
+
+| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
+|----------|----------------|-----------|
+| [Bypass signature check](#bypass-signature-check) | Stops Picsart from killing the process after a few seconds when the APK is re-signed. |  |
+| [Hide Try PRO button](#hide-try-pro-button) | Removes the "Try PRO" pill from the home toolbar and the create tab. |  |
+| [Remove Ads](#remove-ads) | Removes ads from Picsart. |  |
+| [Unlock Premium](#unlock-premium) | Unlocks premium features in Picsart. |  |
+
+</details>
+
+<details open>
+<summary>📦 com.pinterest&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
+<br>
+
+**🎯 Supported versions:**
+
+| 14.39.0 | 14.40.0 | 14.41.0 |
+| :---: | :---: | :---: |
+
+| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
+|----------|----------------|-----------|
+| [Delete button in pin menu](#delete-button-in-pin-menu) | Replaces the WhatsApp button in the menu that opens when you press and hold your saved pin with a trash button that deletes it. |  |
+
+</details>
+
+<details open>
+<summary>📦 Bisbi&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
+<br>
+
+**🎯 Supported versions:**
+
+| 1.0.2 |
+| :---: |
+
+| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
+|----------|----------------|-----------|
+| [Enable Premium](#enable-premium) | Forces the Premium state source before it is recalculated and adds the mod author signature below the Bisbi version. |  |
+
+</details>
+
+<details open>
 <summary>📦 Instagram Instants&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>
 
 **🎯 Supported versions:**
 
-| 444.0.0.45.108|
+| 444.0.0.45.108 |
 | :---: |
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
@@ -104,7 +137,7 @@ This repository contains high-quality, actively maintained patches for popular A
 </details>
 
 <details open>
-<summary>📦 CarScanner&nbsp;&nbsp;•&nbsp;&nbsp;2 patches</summary>
+<summary>📦 com.ovz.carscanner&nbsp;&nbsp;•&nbsp;&nbsp;2 patches</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -120,7 +153,22 @@ This repository contains high-quality, actively maintained patches for popular A
 </details>
 
 <details open>
-<summary>📦 Tinder&nbsp;&nbsp;•&nbsp;&nbsp;5 patches</summary>
+<summary>📦 com.xinesoft.notifications&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
+<br>
+
+**🎯 Supported versions:**
+
+| 1.11.1 |
+| :---: |
+
+| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
+|----------|----------------|-----------|
+| [Remove ads and video blocking](#remove-ads-and-video-blocking) | Removes the AdMob banner and the rewarded video dialog (Schedule/Favorite). |  |
+
+</details>
+
+<details open>
+<summary>📦 Tinder&nbsp;&nbsp;•&nbsp;&nbsp;4 patches</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -133,7 +181,6 @@ This repository contains high-quality, actively maintained patches for popular A
 | [Spoof signature](#spoof-signature) | Spoofs the Tinder package signature to fix push notifications (Firebase rejects registration when the signature does not match the original). |  |
 | [Tinder Remove Ads](#tinder-remove-ads) | Removes the ads shown between profiles in the swipe deck. |  |
 | [Tinder Remove Upsells](#tinder-remove-upsells) | Removes sponsored chat messages and upsell pop-ups (Likes You, Boost). |  |
-| [Tinder Unlimited Passport](#tinder-unlimited-passport) | Unlocks Passport (change location) on the app side. |  |
 | [Tinder Unlimited Rewind](#tinder-unlimited-rewind) | Makes RewindLastRec.invoke() skip the limit/paywall check and perform the rewind directly. |  |
 
 </details>
@@ -154,54 +201,6 @@ This repository contains high-quality, actively maintained patches for popular A
 </details>
 
 <details open>
-<summary>📦 Pinterest&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
-<br>
-
-**🎯 Supported versions:**
-
-| 14.39.0 | 14.40.0 | 14.41.0 |
-| :---: | :---: | :---: |
-
-| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
-|----------|----------------|-----------|
-| [Trash bubble on pin long press](#trash-bubble-on-pin-long-press) | Replace the WhatsApp bubble in the long-press menu of a saved PIN with a trash can that deletes the PIN. |  |
-
-</details>
-
-<details open>
-<summary>📦 Native Camera&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
-<br>
-
-**🎯 Supported versions:**
-
-| 1.4 | 1.4.1 | 1.4.4 |
-| :---: | :---: | :---: |
-
-| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
-|----------|----------------|-----------|
-| [Unlock Premium](#unlock-premium) | Forces the premium entitlement in Native Camera. Premium status is stored locally and controls features such as the sub-40-Mbps bitrate cap. Also disables the PairIP license check when the app includes it. Compatible with v1.4, v1.4.1 and v1.4.4. |  |
-
-</details>
-
-<details open>
-<summary>📦 Picsart&nbsp;&nbsp;•&nbsp;&nbsp;4 patches</summary>
-<br>
-
-**🎯 Supported versions:**
-
-| 30.9.5 |
-| :---: |
-
-| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
-|----------|----------------|-----------|
-| [Bypass signature check](#bypass-signature-check) | Stops Picsart from killing the process after a few seconds when the APK is re-signed. |  |
-| [Hide Try PRO button](#hide-try-pro-button) | Removes the "Try PRO" pill from the home toolbar and the create tab. |  |
-| [Remove Ads](#remove-ads) | Removes ads from Picsart. |  |
-| [Unlock Premium](#unlock-premium) | Unlocks premium features in Picsart. |  |
-
-</details>
-
-<details open>
 <summary>📦 Image & Video Date Fixer&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>
 
@@ -217,17 +216,17 @@ This repository contains high-quality, actively maintained patches for popular A
 </details>
 
 <details open>
-<summary>📦 Notifications Simulator&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
+<summary>📦 Native Camera&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>
 
 **🎯 Supported versions:**
 
-| 1.11.1 |
-| :---: |
+| 1.4 | 1.4.1 | 1.4.4 |
+| :---: | :---: | :---: |
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
-| [Remove ads and video blocking](#remove-ads-and-video-blocking) | Removes the AdMob banner and the rewarded video dialog (Schedule/Favorite). |  |
+| [Unlock Premium](#unlock-premium) | Forces the premium entitlement in Native Camera. Premium status is stored locally and controls features such as the sub-40-Mbps bitrate cap. Also disables the PairIP license check when the app includes it. Compatible with v1.4, v1.4.1 and v1.4.4. |  |
 
 </details>
 
