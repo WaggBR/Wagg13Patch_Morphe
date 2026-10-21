@@ -17,6 +17,12 @@ package app.template.patches.buzzcast
 //   3) "Hide join and follow messages" -> esconde "ingressou" e "Seguiu a âncora" no chat da live
 //   4) "Hide live room cards"          -> esconde os cards do canto da live (evento, parede de honra, recarga)
 //   5) "Hide home banner"              -> esconde o carrossel de banners/promoções no meio da lista da aba inicial
+//   7) "Disable trackers"              -> desliga AppsFlyer, Firebase Analytics, Bugly e ID de publicidade
+//   8) "Block app open reports"        -> (desligado por padrão) não envia ao servidor o relatório de abertura/canal
+//   9) "Hide first recharge popups"    -> esconde os diálogos de oferta de primeira recarga
+//  10) "Hide splash promo"            -> pula a tela promocional em tela cheia ("Pular N" / botão GO) ao abrir o app
+//  11) "Hide update prompt"            -> esconde o aviso "Atualizar agora / Depois" do app
+//  12) "Hide rating prompts"           -> esconde os pedidos de avaliação do app
 //   (oculto) branding Wagg13  -> tela de Ajustes: linha "Versão" vira link do canal + rodapé do mod.
 //                               Aplicado automaticamente junto com qualquer patch acima (dependsOn), sem aparecer na lista.
 //
@@ -172,7 +178,7 @@ private val buzzCastBrandingPatch = bytecodePatch(
 @Suppress("unused")
 val buzzCastUnlockSvipPatch = bytecodePatch(
     name = "Unlock SVIP",
-    description = "Unlocks SVIP features, blocks purchase flow and Unity Ads.",
+    description = "Unlocks SVIP features and removes ads and purchase pop-ups.",
 ) {
     compatibleWith(PKG(VERSION))
     dependsOn(buzzCastStripAdManifestPatch, buzzCastBrandingPatch)
@@ -196,11 +202,13 @@ val buzzCastUnlockSvipPatch = bytecodePatch(
         val level2 = "const/4 v0, 0x2\nreturn v0"
         val boxed2 =
             "const/4 v0, 0x2\ninvoke-static {v0}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;\nmove-result-object v0\nreturn-object v0"
-        val boxed1 =
-            "const/4 v0, 0x1\ninvoke-static {v0}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;\nmove-result-object v0\nreturn-object v0"
         val forever = "const-wide v0, 0x7fffffffffffffffL\nreturn-wide v0"
         val retTrue = "const/4 v0, 0x1\nreturn v0"
 
+        // NÃO forçar isOfficial()/getOfficialAccount(): o modelo UserVipData é de TODOS os usuários, e quando
+        // isOfficial() é true o app troca a foto de perfil real pelo logo do app + selo "V"
+        // (ex.: SuperFansLevelView.setUserImg não carrega UserBean.getSmallImg() para contas oficiais).
+        // Era isso que trocava as fotos de perfil por uma imagem padrão.
         replaceBody(vipData, "getIsVip", "I", level2)
         replaceBody(vipData, "getVipLevel", "I", level2)
         replaceBody("Lcom/guochao/faceshow/bean/UserBean;", "getVipLevel", "I", level2)
@@ -209,11 +217,8 @@ val buzzCastUnlockSvipPatch = bytecodePatch(
         replaceBody(vipData, "getThirdEndTime", "J", forever)
         replaceBody(vipData, "getVipSign", "Ljava/lang/String;", "const-string v0, \"vvip1_1\"\nreturn-object v0")
         replaceBodyIfPresent(vipData, "isVip", "Z", retTrue)
-        replaceBodyIfPresent(vipData, "isOfficial", "Z", retTrue)
         replaceBodyIfPresent("Lcom/guochao/faceshow/aaspring/utils/VipUserInfoUtil\$1;", "getVipLevel", "I", level2)
         replaceBodyIfPresent("Lcom/guochao/faceshow/aaspring/utils/VipUserInfoUtil\$1;", "isVip", "Z", retTrue)
-        replaceBodyIfPresent("Lcom/guochao/lib_service_center/live/game/UserVipData1;", "getOfficialAccount", "Ljava/lang/Integer;", boxed1)
-        replaceBodyIfPresent("Lcom/guochao/faceshow/session/model/UserSessionModel;", "getOfficialAccount", "Ljava/lang/Integer;", boxed1)
 
         // ---------------- Google Play billing ----------------
         mutableClassDefBy("Lcom/guochao/faceshow/aaspring/modulars/googlepay/InAppBillingViewModel;")
@@ -245,7 +250,7 @@ val buzzCastUnlockSvipPatch = bytecodePatch(
 @Suppress("unused")
 val buzzCastHideLiveNoticePatch = bytecodePatch(
     name = "Hide live room notice",
-    description = "Removes the 'healthy live streaming' notice shown in every live chat.",
+    description = "Removes the \"healthy live streaming\" message shown in every live chat.",
 ) {
     compatibleWith(PKG(VERSION))
     dependsOn(buzzCastBrandingPatch)
@@ -281,7 +286,7 @@ val buzzCastHideLiveNoticePatch = bytecodePatch(
 @Suppress("unused")
 val buzzCastHideJoinFollowMessagesPatch = bytecodePatch(
     name = "Hide join and follow messages",
-    description = "Hides the \"joined\" and \"followed the streamer\" messages in the live chat and the join banner at the top.",
+    description = "Hides the \"joined\" and \"followed\" messages in live chats and the join banner at the top.",
 ) {
     compatibleWith(PKG(VERSION))
     dependsOn(buzzCastBrandingPatch)
@@ -345,7 +350,7 @@ val buzzCastHideJoinFollowMessagesPatch = bytecodePatch(
 @Suppress("unused")
 val buzzCastHideCornerCardsPatch = bytecodePatch(
     name = "Hide live room cards",
-    description = "Hides the rotating event/honor wall/daily recharge cards in the corner of live rooms.",
+    description = "Hides the rotating event and gift cards in the corner of live rooms.",
 ) {
     compatibleWith(PKG(VERSION))
     dependsOn(buzzCastBrandingPatch)
@@ -376,7 +381,7 @@ val buzzCastHideCornerCardsPatch = bytecodePatch(
 @Suppress("unused")
 val buzzCastHideHomeBannerPatch = bytecodePatch(
     name = "Hide home banner",
-    description = "Hides the promotional banner carousel shown in the middle of the home live list.",
+    description = "Hides the promotional banner in the middle of the home list.",
 ) {
     compatibleWith(PKG(VERSION))
     dependsOn(buzzCastBrandingPatch)
@@ -386,5 +391,208 @@ val buzzCastHideHomeBannerPatch = bytecodePatch(
             .methods
             .first { it.name == "N7" && it.returnType == "V" && it.parameterTypes.isEmpty() }
             .addInstructions(0, "return-void")
+    }
+}
+
+// ---------------------------------------------------------------------------------------------------------------
+// TELEMETRIA / RASTREADORES (3.2.92)
+// ---------------------------------------------------------------------------------------------------------------
+// Verificado no DEX:
+//   * BaseApplication.trackFirebase(String, Bundle) é o único ponto que envia eventos ao Firebase Analytics.
+//   * AppsflyerUtils.init/onTrackEvent/handAfReport iniciam e alimentam o AppsFlyer. O app ainda chama
+//     AppsFlyerLib.getAppsFlyerUID() no login/pagamento; esse método NÃO depende de init()/start() (lê o estado
+//     interno do SDK), então desligar o init não quebra o login.
+//   * BuglyUtils.init inicia o Bugly (relatório de crash/desempenho da Tencent). As demais chamadas do app
+//     (Bugly.updateUserId / putUserData) checam a flag "inicializado" e retornam sem fazer nada.
+//   * Todos os stubs são "return-void" no índice 0: nada é apagado, então não há risco de VerifyError.
+
+// Dependência (oculta): manifest.
+private val buzzCastTrackerManifestPatch = resourcePatch(
+    description = "Disables Firebase Analytics / advertising ID collection and removes ad-ID permissions.",
+) {
+    compatibleWith(PKG(VERSION))
+
+    execute {
+        document("AndroidManifest.xml").use { doc ->
+            val removePermissions = setOf(
+                "com.google.android.gms.permission.AD_ID",
+                "android.permission.ACCESS_ADSERVICES_TOPICS",
+                "android.permission.ACCESS_ADSERVICES_CUSTOM_AUDIENCE",
+            )
+            val perms = doc.getElementsByTagName("uses-permission")
+            for (i in perms.length - 1 downTo 0) {
+                val node = perms.item(i) as? Element ?: continue
+                if (node.getAttribute("android:name") in removePermissions) node.parentNode?.removeChild(node)
+            }
+
+            val application = doc.getElementsByTagName("application").item(0) as Element
+            fun meta(name: String, value: String) {
+                val metas = doc.getElementsByTagName("meta-data")
+                for (i in 0 until metas.length) {
+                    val e = metas.item(i) as? Element ?: continue
+                    if (e.getAttribute("android:name") == name) { e.setAttribute("android:value", value); return }
+                }
+                val e = doc.createElement("meta-data")
+                e.setAttribute("android:name", name)
+                e.setAttribute("android:value", value)
+                application.appendChild(e)
+            }
+            meta("firebase_analytics_collection_deactivated", "true")
+            meta("google_analytics_adid_collection_enabled", "false")
+            meta("google_analytics_ssaid_collection_enabled", "false")
+            meta("google_analytics_default_allow_ad_personalization_signals", "false")
+            meta("com.facebook.sdk.AdvertiserIDCollectionEnabled", "false")
+        }
+    }
+}
+
+@Suppress("unused")
+val buzzCastDisableTrackersPatch = bytecodePatch(
+    name = "Disable trackers",
+    description = "Stops the app from collecting your usage and advertising data.",
+) {
+    compatibleWith(PKG(VERSION))
+    dependsOn(buzzCastTrackerManifestPatch, buzzCastBrandingPatch)
+
+    execute {
+        fun stub(className: String, methodName: String, paramCount: Int) {
+            mutableClassDefBy(className).methods
+                .first { it.name == methodName && it.returnType == "V" && it.parameterTypes.size == paramCount }
+                .addInstructions(0, "return-void")
+        }
+
+        stub("Lcom/guochao/faceshow/BaseApplication;", "trackFirebase", 2)
+
+        val appsflyer = "Lcom/guochao/faceshow/aaspring/utils/AppsflyerUtils;"
+        stub(appsflyer, "init", 1)
+        stub(appsflyer, "onTrackEvent", 2)
+        stub(appsflyer, "handAfReport", 2)
+
+        stub("Lcom/guochao/faceshow/utils/BuglyUtils;", "init", 1)
+    }
+}
+
+// Opcional (desligado por padrão): o app envia ao próprio servidor "abri o app" e "canal de instalação".
+// DelayIniter.reportAppChannel() / reportAppChannelAf(String, String) / reportAppOpen() -> AppOpenViewModel.m/n/o.
+// Não há efeito local conhecido, mas o servidor pode usar isso para atribuição; por isso fica desligado.
+@Suppress("unused")
+val buzzCastBlockAppReportsPatch = bytecodePatch(
+    name = "Block app open reports",
+    description = "Stops the app from telling BuzzCast every time you open it.",
+    default = false,
+) {
+    compatibleWith(PKG(VERSION))
+    dependsOn(buzzCastBrandingPatch)
+
+    execute {
+        val delayIniter = mutableClassDefBy("Lcom/guochao/faceshow/aaspring/utils/DelayIniter;")
+        for ((name, params) in listOf("reportAppChannel" to 0, "reportAppChannelAf" to 2, "reportAppOpen" to 0)) {
+            delayIniter.methods
+                .first { it.name == name && it.returnType == "V" && it.parameterTypes.size == params }
+                .addInstructions(0, "return-void")
+        }
+    }
+}
+
+// Esconde os diálogos de "primeira recarga".
+// BaseFirstRechargeDialog.show(FragmentManager, String) é o funil único: FirstRechargeDialog e
+// FirstRechargeFragment herdam dele. return-void no índice 0 = o diálogo nunca é exibido.
+// (Não cobre o cabeçalho de primeira recarga no painel de presentes, o item no chat da live nem o
+//  FirstChargeRadarDialog: são componentes separados.)
+@Suppress("unused")
+val buzzCastHideFirstRechargePopupPatch = bytecodePatch(
+    name = "Hide first recharge popups",
+    description = "Hides the first-recharge offer pop-ups.",
+) {
+    compatibleWith(PKG(VERSION))
+    dependsOn(buzzCastBrandingPatch)
+
+    execute {
+        mutableClassDefBy("Lcom/guochao/faceshow/aaspring/modulars/googlepay/firstrecharge/BaseFirstRechargeDialog;")
+            .methods
+            .first { it.name == "show" && it.returnType == "V" && it.parameterTypes.size == 2 }
+            .addInstructions(0, "return-void")
+    }
+}
+
+// Pula a tela promocional em tela cheia que aparece às vezes ao abrir o app (imagem do servidor com contagem
+// "Pular N" e botão GO, ex.: "BuzzCast Short Video Creative Contest").
+// Fluxo (SplashFragment herda de BaseSplashFragment):
+//   C7(): m = SplashUtils.getSplashData(); se (m != null && D7(m)) -> p = true e SplashActivity.J3(this) mostra o splash;
+//         senão -> k = 1 e K7() segue o fluxo normal (login/principal).
+//   J7() ("call showSplashOrJump"): só exibe a imagem se (m != null && D7(m) && p); senão pula.
+//   D7(SplashInfoData): retorna (info.result != null && info.total > 0). A contagem "Pular" vem de BaseSplashFragment$1.onTick.
+// D7 é o portão único: forçando false, os dois caminhos seguem direto para o fluxo normal.
+// D7 é privado, regs=3, ins=2 (um local v0). Específico da 3.2.92.
+@Suppress("unused")
+val buzzCastHideSplashPromoPatch = bytecodePatch(
+    name = "Hide splash promo",
+    description = "Skips the full-screen promotion shown when the app opens.",
+) {
+    compatibleWith(PKG(VERSION))
+    dependsOn(buzzCastBrandingPatch)
+
+    execute {
+        mutableClassDefBy("Lcom/guochao/faceshow/aaspring/modulars/welcome/BaseSplashFragment;")
+            .methods
+            .first { it.name == "D7" && it.returnType == "Z" && it.parameterTypes.size == 1 }
+            .addInstructions(
+                0,
+                """
+                    const/4 v0, 0x0
+                    return v0
+                """,
+            )
+    }
+}
+
+// Esconde o aviso de atualização do app ("Atualizar agora" / "Depois").
+// UpdateController.b(Activity) -> c(Activity) -> g(Activity, Z): g monta o UpdateAppDialog com o texto do servidor
+// (UserBean.getUpdateCopywriting) e os botões update_now / update_later. É o único caminho que mostra o diálogo.
+// Atenção: UserUpdateDialog/AnchorUpdateDialog NÃO são de atualização do app (são o aviso de "subiu de nível"),
+// e ForcedUpdateActivity é a tela de cadastro (escolha de gênero); por isso não são tocados.
+// g é privado, regs=6, ins=3 e retorna void. Específico da 3.2.92.
+@Suppress("unused")
+val buzzCastHideUpdatePromptPatch = bytecodePatch(
+    name = "Hide update prompt",
+    description = "Stops the pop-up that asks you to update the app.",
+) {
+    compatibleWith(PKG(VERSION))
+    dependsOn(buzzCastBrandingPatch)
+
+    execute {
+        mutableClassDefBy("Lcom/guochao/faceshow/update/UpdateController;")
+            .methods
+            .first { it.name == "g" && it.returnType == "V" && it.parameterTypes.size == 2 }
+            .addInstructions(0, "return-void")
+    }
+}
+
+// Esconde os pedidos de avaliação do app (avaliação do Google Play e o diálogo próprio ReviewDialog).
+// InAppReviewHelper.showInAppReview(int, FragmentManager, FragmentActivity) e showDefault(...) retornam boolean
+// ("foi exibido?"). Chamadores: MainActivity (A5, onShowReviewEvent, onUgcPublishEvent), WatchLiveRoomActivity,
+// WithdrawalMoneyActivity e H5WithdrawalMoneyWebActivity. Retornando false o app segue como se nada tivesse sido
+// exibido. Ambos têm 4 locais (v0 livre). Específico da 3.2.92.
+@Suppress("unused")
+val buzzCastHideRatingPromptsPatch = bytecodePatch(
+    name = "Hide rating prompts",
+    description = "Stops the pop-ups that ask you to rate the app.",
+) {
+    compatibleWith(PKG(VERSION))
+    dependsOn(buzzCastBrandingPatch)
+
+    execute {
+        val helper = mutableClassDefBy("Lcom/guochao/faceshow/aaspring/utils/InAppReviewHelper;")
+        for (name in listOf("showInAppReview", "showDefault")) {
+            helper.methods
+                .first { it.name == name && it.returnType == "Z" && it.parameterTypes.size == 3 }
+                .addInstructions(
+                    0,
+                    """
+                        const/4 v0, 0x0
+                        return v0
+                    """,
+                )
+        }
     }
 }

@@ -42,14 +42,23 @@ private val NAMES_BY_BUBBLE_CLASS = mapOf(
         deleteConfirm = "Lri0/b;->delete_confirm:I",
         setLabel = "h(I)V",
     ),
+    // 14.41.0 (a bolha agora fica numa classe do pacote kotlin.jvm.internal, efeito do R8)
+    "Lkotlin/jvm/internal/r;" to PinterestNames(
+        pinModel = "Lcom/pinterest/api/model/pe;",
+        iconEnum = "Lyy1/n0;",
+        deleteConfirm = "Ldj0/b;->delete_confirm:I",
+        setLabel = "h(I)V",
+    ),
 )
 
+/** Monta a bolha "compartilhar no app recente" (WhatsApp). Casa em 14.39, 14.40 e 14.41. */
 private object RecentShareBubbleFingerprint : Fingerprint(
     // Sem accessFlags: o método é public static FINAL e o Morphe exige igualdade exata.
     returnType = ITEM_VIEW,
     strings = listOf("copy_link", "more_apps", "com.whatsapp", "com.kakao.talk"),
 )
 
+/** Construtor do apresentador do long-press de pin: recebe o PinService. */
 private object LongPressPresenterCtorFingerprint : Fingerprint(
     custom = { method, classDef ->
         method.name == "<init>" &&
@@ -60,12 +69,14 @@ private object LongPressPresenterCtorFingerprint : Fingerprint(
 
 @Suppress("unused")
 val pinterestTrashBubblePatch = bytecodePatch(
-    name = "Trash bubble on pin long press",
-    description = "Replace the WhatsApp bubble in the long-press menu of a saved PIN with a" +
-        "trash can that deletes the PIN.",
+    // Título e descrição visíveis ao usuário: sempre em inglês, simples e curtos.
+    name = "Delete button in pin menu",
+    description = "Replaces the WhatsApp button in the menu that opens when you press and hold " +
+        "your saved pin with a trash button that deletes it.",
 ) {
-    compatibleWith("com.pinterest"("14.39.0", "14.40.0"))
+    compatibleWith("com.pinterest"("14.39.0", "14.40.0", "14.41.0"))
 
+    // OBRIGATÓRIO: leva a classe TrashBubble para o APK (use o mesmo caminho dos seus outros patches).
     extendWith("extensions/extension.mpe")
 
     execute {
@@ -73,9 +84,10 @@ val pinterestTrashBubblePatch = bytecodePatch(
         val names = NAMES_BY_BUBBLE_CLASS[bubbleMethod.definingClass]
             ?: throw PatchException(
                 "Versão do Pinterest não suportada (classe da bolha: ${bubbleMethod.definingClass}). " +
-                    "Suportadas: 14.39.0 e 14.40.0.",
+                    "Suportadas: 14.39.0, 14.40.0 e 14.41.0.",
             )
 
+        // 1) Guardar o PinService quando o apresentador do long-press é criado.
         LongPressPresenterCtorFingerprint.method.apply {
             val idx = parameterTypes.indexOfFirst { it.toString() == PIN_SERVICE }
             val reg = "p${idx + 1}" // p0 = this
@@ -86,11 +98,13 @@ val pinterestTrashBubblePatch = bytecodePatch(
             )
         }
 
+        // 2) Antes do return do item montado, trocar ícone/rótulo/clique se o pin for do usuário.
         bubbleMethod.apply {
             val retIdx = implementation!!.instructions.indexOfLast { it.opcode == Opcode.RETURN_OBJECT }
             val view = getInstruction<OneRegisterInstruction>(retIdx).registerA
             if (view !in 3..15) throw PatchException("Registrador do item inesperado: v$view")
 
+            // p9 = pin; p1 = Context. v0..v2 estão mortos neste ponto.
             addInstructionsWithLabels(
                 retIdx,
                 """

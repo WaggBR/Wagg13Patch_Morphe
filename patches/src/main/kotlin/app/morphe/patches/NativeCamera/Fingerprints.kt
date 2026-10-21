@@ -25,6 +25,13 @@ object CameraViewModelSetPremiumFingerprint : Fingerprint(
     strings = listOf("is_premium"),
 )
 
-// v1.4.1+: PairIP was removed. The app now uses Google Play Billing directly.
-// No PairIP license check fingerprint needed anymore.
-// If you need to patch billing, look for Google Play BillingClient patterns.
+// PairIP license check. Present in 1.4 and 1.4.4, absent in 1.4.1 (so this fingerprint is
+// optional in the patch). The class belongs to the PairIP library and is not obfuscated, so
+// the class/method names are stable. It is invoked from Application.attachBaseContext and
+// from LicenseContentProvider.onCreate, so a single early return here covers both entries.
+object PairIpCheckLicenseFingerprint : Fingerprint(
+    definingClass = "Lcom/pairip/licensecheck/LicenseClient;",
+    name = "checkLicense",
+    returnType = "V",
+    parameters = listOf("Landroid/content/Context;"),
+)

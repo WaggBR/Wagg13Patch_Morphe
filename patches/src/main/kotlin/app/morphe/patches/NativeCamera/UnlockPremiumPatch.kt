@@ -12,7 +12,8 @@ val unlockNativeCameraPremiumPatch = bytecodePatch(
     name = "Unlock Premium",
     description = "Forces the premium entitlement in Native Camera. Premium status is stored " +
                   "locally and controls features such as the sub-40-Mbps bitrate cap. " +
-                  "Compatible with v1.4 and v1.4.1 (PairIP was removed in v1.4.1).",
+                  "Also disables the PairIP license check when the app includes it. " +
+                  "Compatible with v1.4, v1.4.1 and v1.4.4.",
     default = true
 ) {
     compatibleWith(COMPATIBILITY_NATIVECAMERA)
@@ -38,9 +39,9 @@ val unlockNativeCameraPremiumPatch = bytecodePatch(
             setter.addInstructions(0, "const/4 p1, 0x1")
         }
 
-        // NOTE: PairIP license check was removed in Native Camera v1.4.1.
-        // The app now uses Google Play Billing directly. The cold-start unlock above
-        // is sufficient to bypass premium checks since the billing flow only writes
-        // the SharedPreferences flag, which we now force to true.
+        // PairIP license check (present in 1.4 and 1.4.4, absent in 1.4.1). Fail-soft so the
+        // patch still applies to versions without it. An early return keeps the bytecode
+        // valid, unlike wiping the method body.
+        PairIpCheckLicenseFingerprint.methodOrNull?.addInstructions(0, "return-void")
     }
 }

@@ -3,21 +3,37 @@ package app.morphe.patches.tinder.ads
 import app.morphe.patcher.Fingerprint
 import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import app.morphe.patcher.patch.bytecodePatch
+import app.morphe.patches.tinder.TinderCompatibility
 
+// ============================================================================
+// VERSÃO SUPORTADA: 17.37.3 (travada via TinderCompatibility)
+//
+// FINGERPRINT 1 — CardStackAdsConfig.<init>(shouldShowAds, isGoogleRecsAdsEnabled, config)
+// (classe Lcj4; nesta versão)
+//
+// Campos confirmados pelo toString() e pelo construtor:
+//   a (Z) = shouldShowAds | b (Z) = isGoogleRecsAdsEnabled | c = googleRecsAdConfig
+//
+// Há um único ponto que constrói o objeto e um único consumidor (FlowCollector
+// emit): com shouldShowAds=true ele monta o loader de anúncios (Google direct,
+// prioridade HIGH); com false ele para o gerenciador de anúncios. Forçar
+// shouldShowAds=false no construtor manda toda emissão pelo caminho "sem anúncios".
+// ============================================================================
 
-private object CardStackAdsConfigV17341Fingerprint : Fingerprint(
-    definingClass = "Lf51/d;",
-    name = "<init>",
-    returnType = "V",
-    parameters = listOf("Z", "Z", "Lcom/tinder/library/adsrecs/internal/e;"),
-)
-
-private object CardStackAdsConfigV17373Fingerprint : Fingerprint(
+private object CardStackAdsConfigFingerprint : Fingerprint(
     definingClass = "Lcj4;",
     name = "<init>",
     returnType = "V",
     parameters = listOf("Z", "Z", "Le4e;"),
 )
+
+// ============================================================================
+// FINGERPRINT 2 — ObserveNimbusRecsAdsEnabledImpl (lambda do combine)
+//
+// Segunda fonte de anúncios do deck (Nimbus): AND de três flags (Z0 && Z1 && Z2).
+// O handler de erro do app já emite FALSE, então FALSE é um estado suportado.
+// O nome desta classe ficou legível.
+// ============================================================================
 
 private object NimbusRecsAdsEnabledFingerprint : Fingerprint(
     definingClass = "Lcom/tinder/adsnimbus/internal/ObserveNimbusRecsAdsEnabledImpl\$invoke\$1;",
@@ -25,6 +41,9 @@ private object NimbusRecsAdsEnabledFingerprint : Fingerprint(
     returnType = "Ljava/lang/Object;",
     parameters = listOf("Ljava/lang/Object;"),
 )
+
+// Construtor com 0 locais: p1 == v1 (cabe em const/4). Escrever em p1 antes do
+// super-init é válido (só "this" fica não inicializado).
 private const val FORCE_SHOULD_SHOW_ADS_FALSE = """
     const/4 p1, 0x0
 """
@@ -32,38 +51,36 @@ private const val FORCE_SHOULD_SHOW_ADS_FALSE = """
 @Suppress("unused")
 val tinderRemoveAdsPatch = bytecodePatch(
     name = "Tinder Remove Ads",
-    description = "Removes ads displayed between profiles in the swipe deck.",
+    description = "Removes the ads shown between profiles in the swipe deck.",
     default = true,
 ) {
-    compatibleWith("com.tinder")
+    compatibleWith(TinderCompatibility.TINDER)
 
     execute {
-        var applied = false
-
         // --- Anúncios Google no deck: shouldShowAds sempre false ---
-        runCatching {
-            CardStackAdsConfigV17341Fingerprint.method.addInstructions(0, FORCE_SHOULD_SHOW_ADS_FALSE)
-            applied = true
-        }
-        runCatching {
-            CardStackAdsConfigV17373Fingerprint.method.addInstructions(0, FORCE_SHOULD_SHOW_ADS_FALSE)
-            applied = true
-        }
+        CardStackAdsConfigFingerprint.method.addInstructions(0, FORCE_SHOULD_SHOW_ADS_FALSE)
 
-        runCatching {
-            NimbusRecsAdsEnabledFingerprint.method.addInstructions(
-                0,
-                """
-                    sget-object v0, Ljava/lang/Boolean;->FALSE:Ljava/lang/Boolean;
-                    return-object v0
-                """
-            )
-            applied = true
-        }
-
-        if (!applied) {
-            error("Tinder Remove Ads: Tinder version not supported. Supported versions: 17.34.1 and 17.37.3.")
-        }
+        // --- Anúncios Nimbus no deck: flow "enabled" sempre false ---
+        // invokeSuspend tem 4 locais, então v0 é livre.
+        NimbusRecsAdsEnabledFingerprint.method.addInstructions(
+            0,
+            """
+                sget-object v0, Ljava/lang/Boolean;->FALSE:Ljava/lang/Boolean;
+                return-object v0
+            """
+        )
     }
 }
 
+/*
+ * OBSERVAÇÕES:
+ *
+ * 1. ESCOPO
+ *    Só os anúncios do deck de swipe (Google e Nimbus). Ficam de fora, de
+ *    propósito: vídeo recompensado (usado no jogo do Secret Admirer), anúncios
+ *    do bouncer paywall e de interesse patrocinado.
+ *
+ * 2. VERSÃO TRAVADA
+ *    "Lcj4;" é nome do R8 e muda a cada versão. Compatibilidade declarada em
+ *    TinderCompatibility.TINDER (17.37.3).
+ */

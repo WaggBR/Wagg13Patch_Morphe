@@ -3,45 +3,56 @@ package app.morphe.patches.tinder.upsells
 import app.morphe.patcher.Fingerprint
 import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import app.morphe.patcher.patch.bytecodePatch
+import app.morphe.patches.tinder.TinderCompatibility
 
+// ============================================================================
+// VERSÃO SUPORTADA: 17.37.3 (travada via TinderCompatibility)
+//
+// Três alvos, todos do lado do app (nenhum depende de resposta do servidor).
+// Nomes confirmados por desmontagem desta versão; o R8 renomeia a cada build.
+// ============================================================================
 
-private object SponsoredMessageV17341Fingerprint : Fingerprint(
-    definingClass = "Lcom/tinder/sponsoredmessage/lifecycle/observer/a;",
-    name = "onCreate",
-    returnType = "V",
-    parameters = listOf("Landroidx/lifecycle/f0;"),
-)
+// ----------------------------------------------------------------------------
+// 1) MENSAGENS PATROCINADAS NO CHAT — SponsoredMessageLifecycleObserver.onCreate()
+//
+// O onCreate registra um loader de anúncios (ad unit "/7214/mat.tinder",
+// prioridade HIGH) e lança a corrotina que observa/exibe a mensagem patrocinada.
+// Sair no início corta as duas coisas. O onDestroy só chama addy.a.e() (parar o
+// gerenciador), o que é seguro mesmo sem loader.
+// ----------------------------------------------------------------------------
 
-private object SponsoredMessageV17373Fingerprint : Fingerprint(
+private object SponsoredMessageFingerprint : Fingerprint(
     definingClass = "Lcom/tinder/sponsoredmessage/lifecycle/observer/a;",
     name = "onCreate",
     returnType = "V",
     parameters = listOf("Lpuh;"),
 )
 
-private object LikesYouUpsellModalV17341Fingerprint : Fingerprint(
-    definingClass = "Lcom/tinder/likesyoumodal/lifecycle/c;",
-    name = "onCreate",
-    returnType = "V",
-    parameters = listOf("Landroidx/lifecycle/f0;"),
-)
+// ----------------------------------------------------------------------------
+// 2) MODAL DE UPSELL "LIKES YOU" DO GOLD — LaunchLikesYouGoldUpsellModalLifecycleObserver.onCreate()
+//
+// O onCreate só chama super.onCreate (método padrão da interface, sem efeito) e
+// lança a corrotina que observa os perfis e abre o modal. Sair no início
+// impede a corrotina de existir.
+// ----------------------------------------------------------------------------
 
-private object LikesYouUpsellModalV17373Fingerprint : Fingerprint(
+private object LikesYouUpsellModalFingerprint : Fingerprint(
     definingClass = "Lcom/tinder/likesyoumodal/lifecycle/c;",
     name = "onCreate",
     returnType = "V",
     parameters = listOf("Lpuh;"),
 )
 
+// ----------------------------------------------------------------------------
+// 3) UPSELL DE BOOST — TakeShouldShowBoostUpsellImpl.invoke(String)
+//
+// Método "a" (suspend, devolve Boolean boxed: "mostrar o upsell?"). Confirmado
+// pela continuação $invoke$1 criada dentro dele. O método "b" é
+// userIsPlatinumOrGold e NÃO é tocado. Quem consome é o framework central de
+// pop-ups (PrioritizedModalEligibilityChecksFactory): false = modal não elegível.
+// ----------------------------------------------------------------------------
 
-private object BoostUpsellV17341Fingerprint : Fingerprint(
-    definingClass = "Lcom/tinder/boost/domain/usecase/m;",
-    name = "a",
-    returnType = "Ljava/lang/Object;",
-    parameters = listOf("Ljava/lang/String;", "Lkotlin/coroutines/jvm/internal/ContinuationImpl;"),
-)
-
-private object BoostUpsellV17373Fingerprint : Fingerprint(
+private object BoostUpsellFingerprint : Fingerprint(
     definingClass = "Lcom/tinder/boost/domain/usecase/e;",
     name = "a",
     returnType = "Ljava/lang/Object;",
@@ -52,6 +63,8 @@ private const val RETURN_VOID_SMALI = """
     return-void
 """
 
+// v0 é um local livre (8 locais no total). Não suspende de verdade, então
+// devolver o Boolean direto é válido.
 private const val RETURN_FALSE_SMALI = """
     sget-object v0, Ljava/lang/Boolean;->FALSE:Ljava/lang/Boolean;
     return-object v0
@@ -60,43 +73,34 @@ private const val RETURN_FALSE_SMALI = """
 @Suppress("unused")
 val tinderRemoveUpsellsPatch = bytecodePatch(
     name = "Tinder Remove Upsells",
-    description = "Remove sponsored messages in the chat and upsell pop-ups (Likes You, Boost).",
+    description = "Removes sponsored chat messages and upsell pop-ups (Likes You, Boost).",
     default = true,
 ) {
-    compatibleWith("com.tinder")
+    compatibleWith(TinderCompatibility.TINDER)
 
     execute {
-        var applied = false
-
-        runCatching {
-            SponsoredMessageV17341Fingerprint.method.addInstructions(0, RETURN_VOID_SMALI)
-            applied = true
-        }
-        runCatching {
-            SponsoredMessageV17373Fingerprint.method.addInstructions(0, RETURN_VOID_SMALI)
-            applied = true
-        }
-
-        runCatching {
-            LikesYouUpsellModalV17341Fingerprint.method.addInstructions(0, RETURN_VOID_SMALI)
-            applied = true
-        }
-        runCatching {
-            LikesYouUpsellModalV17373Fingerprint.method.addInstructions(0, RETURN_VOID_SMALI)
-            applied = true
-        }
-
-        runCatching {
-            BoostUpsellV17341Fingerprint.method.addInstructions(0, RETURN_FALSE_SMALI)
-            applied = true
-        }
-        runCatching {
-            BoostUpsellV17373Fingerprint.method.addInstructions(0, RETURN_FALSE_SMALI)
-            applied = true
-        }
-
-        if (!applied) {
-            error("Tinder Remove Upsells: Tinder version not supported. Supported versions: 17.34.1 and 17.37.3.")
-        }
+        SponsoredMessageFingerprint.method.addInstructions(0, RETURN_VOID_SMALI)
+        LikesYouUpsellModalFingerprint.method.addInstructions(0, RETURN_VOID_SMALI)
+        BoostUpsellFingerprint.method.addInstructions(0, RETURN_FALSE_SMALI)
     }
 }
+
+/*
+ * OBSERVAÇÕES:
+ *
+ * 1. NÃO TESTADO
+ *    Lógica confirmada por desmontagem; o patch não foi compilado nem aplicado.
+ *
+ * 2. O QUE FICOU DE FORA (de propósito)
+ *    - Upsell de Super Like e da lista Platinum: são cadeias de Flow com emit
+ *      (cerca de 70 instruções cada), bem mais arriscadas de alterar.
+ *    - PrioritizedModalEligibilityChecksFactory inteiro: ele decide TODOS os
+ *      pop-ups do app (inclusive consentimento e avisos de segurança).
+ *    - userIsPlatinumOrGold (método "b" do Boost): não é gate de upsell.
+ *
+ * 3. VERSÃO TRAVADA
+ *    "a", "c", "e" e o tipo "puh" são nomes do R8. Compatibilidade declarada
+ *    em TinderCompatibility.TINDER (17.37.3). Para suportar outra versão,
+ *    rastrear a classe real pelo this$0 das continuações (…$onCreate$1,
+ *    TakeShouldShowBoostUpsellImpl$invoke$1) e atualizar as fingerprints.
+ */

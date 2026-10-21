@@ -9,6 +9,12 @@
 
 This repository contains high-quality, actively maintained patches for popular Android apps using the [Morphe](https://morphe.software/) patching framework.
 
+<div align="center">
+  <a href="https://buymeacoffee.com/wagg13" target="_blank">
+    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="50" />
+  </a>
+</div>
+
 ---
 
 ## ⚠️ Important Warnings
@@ -40,8 +46,8 @@ This repository contains high-quality, actively maintained patches for popular A
 
 ## 📋 Available Patches
 
-<!-- PATCHES_START -->
-> **[v1.1.1](https://github.com/WaggBR/Wagg13Patch_Morphe/releases/tag/v1.1.1)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;16 patches total
+<!-- PATCHES_START EXPANDED -->
+> **[v1.3.0](https://github.com/WaggBR/Wagg13Patch_Morphe/releases/tag/v1.3.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;29 patches total
 <details open>
 <summary>📦 Bisbi&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>
@@ -58,7 +64,7 @@ This repository contains high-quality, actively maintained patches for popular A
 </details>
 
 <details open>
-<summary>📦 BuzzCast&nbsp;&nbsp;•&nbsp;&nbsp;5 patches</summary>
+<summary>📦 BuzzCast&nbsp;&nbsp;•&nbsp;&nbsp;11 patches</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -68,11 +74,17 @@ This repository contains high-quality, actively maintained patches for popular A
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
-| [Hide home banner](#hide-home-banner) | Hides the promotional banner carousel shown in the middle of the home live list. |  |
-| [Hide join and follow messages](#hide-join-and-follow-messages) | Hides the "joined" and "followed the streamer" messages in the live chat and the join banner at the top. |  |
-| [Hide live room cards](#hide-live-room-cards) | Hides the rotating event/honor wall/daily recharge cards in the corner of live rooms. |  |
-| [Hide live room notice](#hide-live-room-notice) | Removes the 'healthy live streaming' notice shown in every live chat. |  |
-| [Unlock SVIP](#unlock-svip) | Unlocks SVIP features, blocks purchase flow and Unity Ads. |  |
+| [Block app open reports](#block-app-open-reports) | Stops the app from telling BuzzCast every time you open it. |  |
+| [Disable trackers](#disable-trackers) | Stops the app from collecting your usage and advertising data. |  |
+| [Hide first recharge popups](#hide-first-recharge-popups) | Hides the first-recharge offer pop-ups. |  |
+| [Hide home banner](#hide-home-banner) | Hides the promotional banner in the middle of the home list. |  |
+| [Hide join and follow messages](#hide-join-and-follow-messages) | Hides the "joined" and "followed" messages in live chats and the join banner at the top. |  |
+| [Hide live room cards](#hide-live-room-cards) | Hides the rotating event and gift cards in the corner of live rooms. |  |
+| [Hide live room notice](#hide-live-room-notice) | Removes the "healthy live streaming" message shown in every live chat. |  |
+| [Hide rating prompts](#hide-rating-prompts) | Stops the pop-ups that ask you to rate the app. |  |
+| [Hide splash promo](#hide-splash-promo) | Skips the full-screen promotion shown when the app opens. |  |
+| [Hide update prompt](#hide-update-prompt) | Stops the pop-up that asks you to update the app. |  |
+| [Unlock SVIP](#unlock-svip) | Unlocks SVIP features and removes ads and purchase pop-ups. |  |
 
 </details>
 
@@ -82,12 +94,47 @@ This repository contains high-quality, actively maintained patches for popular A
 
 **🎯 Supported versions:**
 
-| 444.0.0.45.108 |
+| 444.0.0.45.108|
 | :---: |
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
 | [Instants Mod](#instants-mod) | Support for posting photos from the gallery to Instants via the gallery icon on the home screen. |  |
+
+</details>
+
+<details open>
+<summary>📦 CarScanner&nbsp;&nbsp;•&nbsp;&nbsp;2 patches</summary>
+<br>
+
+**🎯 Supported versions:**
+
+| 2.1.50 |
+| :---: |
+
+| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
+|----------|----------------|-----------|
+| [Remove ads](#remove-ads) | Disables AdMob ads (banner, interstitial, app open, rewarded) and the consent form. |  |
+| [Unlock Pro](#unlock-pro) | Makes Car Scanner believe the Pro version was purchased (Google Play Billing). |  |
+
+</details>
+
+<details open>
+<summary>📦 Tinder&nbsp;&nbsp;•&nbsp;&nbsp;5 patches</summary>
+<br>
+
+**🎯 Supported versions:**
+
+| 17.37.3 |
+| :---: |
+
+| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
+|----------|----------------|-----------|
+| [Spoof signature](#spoof-signature) | Spoofs the Tinder package signature to fix push notifications (Firebase rejects registration when the signature does not match the original). |  |
+| [Tinder Remove Ads](#tinder-remove-ads) | Removes the ads shown between profiles in the swipe deck. |  |
+| [Tinder Remove Upsells](#tinder-remove-upsells) | Removes sponsored chat messages and upsell pop-ups (Likes You, Boost). |  |
+| [Tinder Unlimited Passport](#tinder-unlimited-passport) | Unlocks Passport (change location) on the app side. |  |
+| [Tinder Unlimited Rewind](#tinder-unlimited-rewind) | Makes RewindLastRec.invoke() skip the limit/paywall check and perform the rewind directly. |  |
 
 </details>
 
@@ -107,52 +154,17 @@ This repository contains high-quality, actively maintained patches for popular A
 </details>
 
 <details open>
-<summary>📦 Tinder&nbsp;&nbsp;•&nbsp;&nbsp;4 patches</summary>
-<br>
-
-**🎯 Supported versions:**
-
-| 17.34.1 | 17.37.3 |
-| :---: | :---: |
-
-
-| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
-|----------|----------------|-----------|
-| [Remove ads](#remove-ads) | Removes ads displayed between profiles in the swipe deck. |  |
-| [Remove upsells](#remove-upsells) | Removes sponsored messages in chat and upsell pop-ups for Likes You and Boost. |  |
-| [Spoof signature](#spoof-signature) | Spoofs the Tinder package signature to restore push notifications. | recommended to apply |
-| [Unlimited Rewind](#unlimited-rewind) | Removes signature verification and enables Rewind locally. |  |
-
-</details>
-
-<details open>
-<summary>📦 Car Scanner&nbsp;&nbsp;•&nbsp;&nbsp;2 patches</summary>
-<br>
-
-**🎯 Supported versions:**
-
-| 2.1.50 |
-| :---: |
-
-| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
-|----------|----------------|-----------|
-| [Remove ads](#remove-ads) | Disables AdMob ads and the consent form. |  |
-| [Unlock Pro](#unlock-pro) | Makes Car Scanner believe the Pro version was purchased through Google Play Billing. |  |
-
-</details>
-
-<details open>
 <summary>📦 Pinterest&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>
 
 **🎯 Supported versions:**
 
-| 14.39.0 | 14.40.0 |
-| :---: | :---: |
+| 14.39.0 | 14.40.0 | 14.41.0 |
+| :---: | :---: | :---: |
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
-| [Trash bubble on pin long press](#trash-bubble-on-pin-long-press) | Replaces the WhatsApp bubble in the long-press menu of a saved Pin with a trash can that deletes the Pin. |  |
+| [Trash bubble on pin long press](#trash-bubble-on-pin-long-press) | Replace the WhatsApp bubble in the long-press menu of a saved PIN with a trash can that deletes the PIN. |  |
 
 </details>
 
@@ -162,12 +174,60 @@ This repository contains high-quality, actively maintained patches for popular A
 
 **🎯 Supported versions:**
 
-| 1.4 | 1.4.1 |
-| :---: | :---: |
+| 1.4 | 1.4.1 | 1.4.4 |
+| :---: | :---: | :---: |
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
-| [Unlock Premium](#unlock-premium) | Forces the premium entitlement in Native Camera. Premium status is stored locally and controls features such as the sub-40-Mbps bitrate cap. Compatible with v1.4 and v1.4.1 (PairIP was removed in v1.4.1). |  |
+| [Unlock Premium](#unlock-premium) | Forces the premium entitlement in Native Camera. Premium status is stored locally and controls features such as the sub-40-Mbps bitrate cap. Also disables the PairIP license check when the app includes it. Compatible with v1.4, v1.4.1 and v1.4.4. |  |
+
+</details>
+
+<details open>
+<summary>📦 Picsart&nbsp;&nbsp;•&nbsp;&nbsp;4 patches</summary>
+<br>
+
+**🎯 Supported versions:**
+
+| 30.9.5 |
+| :---: |
+
+| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
+|----------|----------------|-----------|
+| [Bypass signature check](#bypass-signature-check) | Stops Picsart from killing the process after a few seconds when the APK is re-signed. |  |
+| [Hide Try PRO button](#hide-try-pro-button) | Removes the "Try PRO" pill from the home toolbar and the create tab. |  |
+| [Remove Ads](#remove-ads) | Removes ads from Picsart. |  |
+| [Unlock Premium](#unlock-premium) | Unlocks premium features in Picsart. |  |
+
+</details>
+
+<details open>
+<summary>📦 Image & Video Date Fixer&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
+<br>
+
+**🎯 Supported versions:**
+
+| 3.10.1 |
+| :---: |
+
+| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
+|----------|----------------|-----------|
+| [Unlock Premium](#unlock-premium) | Unlocks all premium features in Image & Video Date Fixer. |  |
+
+</details>
+
+<details open>
+<summary>📦 Notifications Simulator&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
+<br>
+
+**🎯 Supported versions:**
+
+| 1.11.1 |
+| :---: |
+
+| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
+|----------|----------------|-----------|
+| [Remove ads and video blocking](#remove-ads-and-video-blocking) | Removes the AdMob banner and the rewarded video dialog (Schedule/Favorite). |  |
 
 </details>
 
@@ -175,13 +235,13 @@ This repository contains high-quality, actively maintained patches for popular A
 
 ### Patch Details
 
-#### 🔥 Tinder — Rewind Unlock, Ad Removal & Fewer Upsells
+#### 🔥 Tinder — Rewind & Passport Unlock, Ad Removal & Fewer Upsells
 - **Package:** `com.tinder`
-- **Functionality:** Enables Unlimited Rewinds locally, removes ads from the swipe deck, hides sponsored messages and Likes You/Boost upsells, and can spoof the original package signature for push notifications.
-- **Compatibility:** v17.34.1 and v17.37.3 only
+- **Functionality:** Enables Unlimited Rewinds locally, unlocks the Passport (change location) screen on the app side, removes ads from the swipe deck, hides sponsored messages and Likes You/Boost upsells, and spoofs the original package signature for push notifications.
+- **Compatibility:** v17.37.3 only (support for v17.34.1 was dropped; the patches are tied to this exact version)
 - **Status:** ✅ Active & Maintained (stable)
-- **Options:** **Spoof signature** is disabled by default; enable it only if you need push notifications.
-- **Limitations:** No other Tinder premium feature can be enabled by these patches. All other premium features depend on Tinder's servers, including the photos of people who liked your profile, which are already blurred when they arrive from the server. See **Important Warnings** at the top of this page.
+- **Options:** **Spoof signature** is now enabled by default (push notifications and the Passport map need it); you can disable it if you don't want it.
+- **Limitations:** No other Tinder premium feature can be enabled by these patches. **Spoof signature** enabled. All other premium features depend on Tinder's servers, including the photos of people who liked your profile, which are already blurred when they arrive from the server. See **Important Warnings** at the top of this page.
 - **Ban risk:** ⚠️ Account restrictions or bans are possible. The author is not responsible for them.
 
 #### 🚗 Car Scanner — Pro Unlock & Ad Removal
@@ -194,15 +254,15 @@ This repository contains high-quality, actively maintained patches for popular A
 #### 📌 Pinterest — Trash Bubble on Pin Long Press
 - **Package:** `com.pinterest`
 - **Functionality:** Replaces the WhatsApp action in the long-press menu of a saved Pin with a trash-can action that deletes the Pin.
-- **Compatibility:** v14.39.0 and v14.40.0 only
+- **Compatibility:** v14.39.0/v14.40.0/v14.41.0 only
 - **Status:** ✅ Active & Maintained
 - **Limitations:** The trash action is available only for Pins owned by the current account.
 
 #### 📷 Native Camera — Premium Unlock
 - **Package:** `com.rawcam.app`
-- **Functionality:** Enables advanced camera features
-- **Compatibility:** Compatible with all supported devices
-- **Status:** ✅ Active & Maintained (thanks to [Franticg33k](https://github.com/franticg33k/morphe-patches) — I fixed the patch to work with the current version.)
+- **Functionality:** Enables advanced camera features and disables the PairIP license check when the app includes it
+- **Compatibility:** v1.4, v1.4.1 and v1.4.4
+- **Status:** ✅ Active & Maintained
 
 #### 📱 Bisbi — Premium Unlock
 - **Package:** `com.nouxi.bisbi`
@@ -219,7 +279,8 @@ This repository contains high-quality, actively maintained patches for popular A
 
 #### 📷 Instants — Instant Gallery Post
 - **Package:** `com.instagram.moonshot`
-- **Functionality:** Posts images straight from the phone's gallery as if they had just been captured live
+- **Functionality:**
+  - **Gallery post:** posts images straight from the phone's gallery as if they had just been captured live (gallery button on the camera screen).
 - **Compatibility:** v444.0.0.45.108 only (the patch is tied to this exact version)
 - **Status:** 🧪 **Beta** — Errors and Bugs are expected.
 - **Ban risk:** ⚠️ Account restrictions or bans are possible. The author is not responsible for them.
@@ -232,12 +293,40 @@ This repository contains high-quality, actively maintained patches for popular A
   - **Hide join and follow messages:** hides the "joined" and "followed the streamer" messages in the live chat and the join banner at the top.
   - **Hide live room cards:** hides the rotating event/honor wall/daily recharge cards in the corner of live rooms.
   - **Hide home banner:** hides the promotional banner carousel shown in the middle of the home live list.
-- **Compatibility:** v3.2.92 only (the patches are tied to this exact version — the notice patch relies on a version-specific resource ID)
+  - **Disable trackers:** turns off AppsFlyer, Firebase Analytics and Bugly, and removes the advertising ID permissions.
+  - **Block app open reports:** stops the app from reporting every app open and the install channel to BuzzCast's server. **Disabled by default.**
+  - **Hide first recharge popups:** hides the first-recharge offer dialogs.
+  - **Hide splash promo:** skips the full-screen promotional screen ("Skip N" / GO button) shown when the app opens.
+  - **Hide update prompt:** hides the "Update now / Later" pop-up.
+  - **Hide rating prompts:** hides the pop-ups that ask you to rate the app.
+- **Compatibility:** v3.2.92 only (the patches are tied to this exact version — several of them rely on version-specific class names and resource IDs)
 - **Status:** ✅ Active & Maintained
 - **Limitations:** Only what is decided on the client can be unlocked. Anything that depends on BuzzCast's servers (for example gifts or paid content validated server-side) cannot be unlocked by a patch.
 - **Ban risk:** ⚠️ Account restrictions or bans are possible. The author is not responsible for them.
-- **Credits & what changed:** the SVIP patch is based on the original work of **[rushiranpise](https://github.com/rushiranpise/morphe-patches)** — full credit to them for the original idea and implementation.
-  - New **Hide live room notice** patch (not in the original).
+
+#### 🎨 Picsart — Premium Unlock, Ad Removal & Signature Bypass
+- **Package:** `com.picsart.studio`
+- **Functionality:**
+  - **Unlock Premium:** forces the local subscription state, unlocking the tools, effects and badges locked behind the subscription.
+  - **Remove Ads:** disables the banner, interstitial, native and rewarded ads.
+  - **Hide Try PRO button:** removes the "Try PRO" pill from the home toolbar and the create tab.
+  - **Bypass signature check:** stops Picsart from closing itself a few seconds after opening when the APK is re-signed. The other Picsart patches already include it.
+- **Compatibility:** v30.9.5 only (the patches are tied to this exact version)
+- **Status:** ✅ Active & Maintained
+- **Limitations:** The premium state is simulated locally. Anything validated by Picsart's servers remains unavailable.
+- **Ban risk:** ⚠️ Account restrictions or bans are possible. The author is not responsible for them.
+
+#### 🗓️ Image & Video Date Fixer — Premium Unlock
+- **Package:** `eu.duong.imagedatefixer`
+- **Functionality:** Unlocks all premium features locally (lifetime, subscription and premium flags)
+- **Compatibility:** v3.10.1 only (the patch is tied to this exact version)
+- **Status:** ✅ Active & Maintained (ported from the original patch by [rushiranpise](https://github.com/rushiranpise/morphe-patches) — it was updated to work with the current version.)
+
+#### 🔔 Notifications Simulator — Ad Removal
+- **Package:** `com.xinesoft.notifications`
+- **Functionality:** Removes the AdMob banner and the rewarded video dialog shown when scheduling or favoriting.
+- **Compatibility:** v1.11.1 only (the patch edits the app's bundled JavaScript and stops with an error on any other version)
+- **Status:** ✅ Active & Maintained
 
 
 ---
@@ -365,7 +454,7 @@ This project is licensed under the **GNU General Public License v3.0 (GPLv3)** �
 - Respect the terms of service of the applications being patched.
 - This tool should only be used for personal, non-commercial purposes.
 - Always download original APKs from official sources.
-- This project is independent and not affiliated with Tinder, Google, Bisbi, Instagram, Instants, BuzzCast, Car Scanner, Pinterest, or Morphe. All trademarks are the property of their respective owners.
+- This project is independent and not affiliated with Tinder, Google, Bisbi, Instagram, Instants, BuzzCast, Car Scanner, Pinterest, Picsart, Image & Video Date Fixer, Notifications Simulator, or Morphe. All trademarks are the property of their respective owners.
 
 ---
 
@@ -408,7 +497,7 @@ For questions about Morphe itself, visit [Morphe's official documentation](https
 
 ## 📊 Project Statistics
 
-- **Total Patches:** 8 applications (16 patches)
+- **Total Patches:** 11 applications (29 patches)
 - **Last Updated:** October 2026
 - **Status:** Actively maintained
 - **Architecture Support:** arm64-v8a (primary)
@@ -419,7 +508,8 @@ For questions about Morphe itself, visit [Morphe's official documentation](https
 
 - [Morphe Framework](https://morphe.software/) — The powerful patching engine
 - [Franticg33k](https://github.com/franticg33k/morphe-patches) — Original Native Camera patch
-- [rushiranpise](https://github.com/rushiranpise/morphe-patches) — Original BuzzCast patch, which our *Unlock SVIP* patch is based on (we fixed the launch crash and updated it for v3.2.90)
+- [rushiranpise](https://github.com/rushiranpise/morphe-patches) — Original BuzzCast patch, which our *Unlock SVIP* patch is based on (we fixed the launch crash and updated it for v3.2.92)
+- [rushiranpise](https://github.com/rushiranpise/morphe-patches) — Original Image & Video Date Fixer patch, which we updated for v3.10.1
 - Android community for continuous feedback and support
 
 ---
@@ -435,7 +525,7 @@ Last updated: October 2026
 If these patches save you time, consider supporting development:
 
 <div align="center">
-  <a href="https://buymeacoffee.com/mkr_infinity" target="_blank">
+  <a href="https://buymeacoffee.com/wagg13" target="_blank">
     <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="50" />
   </a>
 </div>
