@@ -120,6 +120,23 @@ public final class StoryLikeHistoryAdapter extends BaseAdapter {
                 Gravity.TOP | Gravity.START);
         badgeLp.setMargins(dp(4), dp(4), 0, 0);
         media.addView(badge, badgeLp);
+
+        TextView expired = new TextView(context);
+        expired.setText(pt() ? "EXPIRADO" : "EXPIRED");
+        expired.setTextColor(Color.WHITE);
+        expired.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
+        expired.setTypeface(null, android.graphics.Typeface.BOLD);
+        GradientDrawable expiredBg = new GradientDrawable();
+        expiredBg.setColor(0xCCE1306C);
+        expiredBg.setCornerRadius(dp(4));
+        expired.setBackground(expiredBg);
+        expired.setPadding(dp(6), dp(2), dp(6), dp(2));
+        FrameLayout.LayoutParams expiredLp = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,
+                Gravity.BOTTOM | Gravity.START);
+        expiredLp.setMargins(dp(4), 0, 0, dp(4));
+        media.addView(expired, expiredLp);
+
         cell.addView(media);
 
         // Text block.
@@ -156,6 +173,7 @@ public final class StoryLikeHistoryAdapter extends BaseAdapter {
         FrameLayout media = (FrameLayout) cell.getChildAt(0);
         ImageView thumb = (ImageView) media.getChildAt(0);
         TextView badge = (TextView) media.getChildAt(1);
+        TextView expired = (TextView) media.getChildAt(2);
         LinearLayout texts = (LinearLayout) cell.getChildAt(1);
         TextView name = (TextView) texts.getChildAt(0);
         TextView handle = (TextView) texts.getChildAt(1);
@@ -175,6 +193,8 @@ public final class StoryLikeHistoryAdapter extends BaseAdapter {
         handle.setText(entry.username == null || entry.username.isEmpty() ? "" : "@" + entry.username);
         liked.setText((pt() ? "Curtido às " : "Liked at ")
                 + DateFormat.getTimeInstance(DateFormat.SHORT).format(new Date(entry.likedAt)));
+
+        expired.setVisibility(entry.isExpired(System.currentTimeMillis()) ? View.VISIBLE : View.GONE);
 
         thumb.setOnClickListener(v -> listener.onThumbnail(entry));
         name.setOnClickListener(v -> listener.onProfile(entry));
