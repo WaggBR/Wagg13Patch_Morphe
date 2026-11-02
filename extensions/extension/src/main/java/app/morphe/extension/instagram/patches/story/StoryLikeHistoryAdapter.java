@@ -1,8 +1,11 @@
 package app.morphe.extension.instagram.patches.story;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.util.LruCache;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -13,11 +16,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Two-column grid adapter for the story like history. Each cell is a thumbnail (3:4-ish,
@@ -49,6 +55,22 @@ public final class StoryLikeHistoryAdapter extends BaseAdapter {
     private static final int BADGE_BG = 0x99000000;
     private static final int THUMB_HEIGHT_DP = 200;
     private static final int CORNER_DP = 12;
+    private static final int SAMPLE_WIDTH = 300;
+    private static final int CACHE_KB = 24 * 1024;
+
+    /** Decoded thumbnails, keyed by path; small enough for a phone screen of cells. */
+    private static final LruCache<String, Bitmap> CACHE = new LruCache<>(CACHE_KB) {
+        @Override
+        protected int sizeOf(String key, Bitmap value) {
+            return value.getByteCount() / 1024;
+        }
+    };
+
+    private static final ExecutorService DECODER = Executors.newSingleThreadExecutor(runnable -> {
+        Thread thread = new Thread(runnable, "wagg13-story-likes-thumbs");
+        thread.setDaemon(true);
+        return thread;
+    });
 
     private final Context context;
     private final Listener listener;
@@ -137,6 +159,18 @@ public final class StoryLikeHistoryAdapter extends BaseAdapter {
         expiredLp.setMargins(dp(4), 0, 0, dp(4));
         media.addView(expired, expiredLp);
 
+        TextView play = new TextView(context);
+        play.setText("\u25B6");
+        play.setTextColor(Color.WHITE);
+        play.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
+        play.setGravity(Gravity.CENTER);
+        GradientDrawable playBg = new GradientDrawable();
+        playBg.setColor(BADGE_BG);
+        playBg.setShape(GradientDrawable.OVAL);
+        play.setBackground(playBg);
+        FrameLayout.LayoutParams playLp = new FrameLayout.LayoutParams(dp(34), dp(34), Gravity.CENTER);
+        media.addView(play, playLp);
+
         cell.addView(media);
 
         // Text block.
@@ -174,12 +208,16 @@ public final class StoryLikeHistoryAdapter extends BaseAdapter {
         ImageView thumb = (ImageView) media.getChildAt(0);
         TextView badge = (TextView) media.getChildAt(1);
         TextView expired = (TextView) media.getChildAt(2);
+        TextView play = (TextView) media.getChildAt(3);
         LinearLayout texts = (LinearLayout) cell.getChildAt(1);
         TextView name = (TextView) texts.getChildAt(0);
         TextView handle = (TextView) texts.getChildAt(1);
         TextView liked = (TextView) texts.getChildAt(2);
 
         applyThumbnail(thumb, entry);
+
+        String path = entry.thumbnailPath;
+        play.setVisibility(path != null && path.endsWith(".mp4") ? View.VISIBLE : View.GONE);
 
         if (entry.postedAt > 0) {
             badge.setVisibility(View.VISIBLE);
@@ -202,9 +240,48 @@ public final class StoryLikeHistoryAdapter extends BaseAdapter {
         texts.setOnClickListener(v -> listener.onMenu(entry, texts));
     }
 
-    /** Best-effort thumbnail; placeholder until the local cache is wired up (Task 7). */
-    private void applyThumbnail(ImageView thumb, StoryLikeHistoryEntry entry) {
+    /** Loads the local thumbnail off the UI thread, with a decoded-bitmap cache. */
+    private void applyThumbnail(final ImageView thumb, StoryLikeHistoryEntry entry) {
+        final String path = entry.thumbnailPath;
+        if (path == null || path.isEmpty()) {
+            thumb.setTag(null);
+            thumb.setImageDrawable(null);
+            return;
+        }
+
+        Bitmap cached = CACHE.get(path);
+        if (cached != null) {
+            thumb.setTag(path);
+            thumb.setImageBitmap(cached);
+            return;
+        }
+
+        thumb.setTag(path);
         thumb.setImageDrawable(null);
+        DECODER.execute(() -> {
+            Bitmap bitmap = decode(path);
+            if (bitmap == null) return;
+            CACHE.put(path, bitmap);
+            thumb.post(() -> {
+                if (path.equals(thumb.getTag())) thumb.setImageBitmap(bitmap);
+            });
+        });
+    }
+
+    private static Bitmap decode(String path) {
+        try {
+            if (!new File(path).isFile()) return null;
+            BitmapFactory.Options bounds = new BitmapFactory.Options();
+            bounds.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(path, bounds);
+            int sample = 1;
+            while (bounds.outWidth / (sample * 2) >= SAMPLE_WIDTH) sample *= 2;
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = sample;
+            return BitmapFactory.decodeFile(path, options);
+        } catch (Throwable t) {
+            return null;
+        }
     }
 
     private GradientDrawable roundedTop() {

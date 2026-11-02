@@ -33,9 +33,9 @@ public final class StoryLikeHistoryEntry {
         this.thumbnailPath = thumbnailPath;
     }
 
-    /** The story itself has left Instagram (posted + 24h). */
+    /** The story itself has left Instagram (posted + 24h). Unknown publish times are never expired. */
     public boolean isExpired(long now) {
-        return now >= postedAt + DAY_MS;
+        return postedAt > 0L && now >= postedAt + DAY_MS;
     }
 
     /** The entry should disappear from the panel (liked + 24h). */

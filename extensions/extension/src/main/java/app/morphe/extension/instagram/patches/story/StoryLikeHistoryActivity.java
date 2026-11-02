@@ -1,8 +1,7 @@
 /*
  * Story like history screen (Morphe): a native grid of the stories the user liked in the
  * last 24h. Built with plain android.widget views, no XML and no extra dependencies.
- * Phase 1 (this file's first version) is fed by mock entries; the repository fills it in
- * during Phase 2.
+ * The entries come from StoryLikeHistory (local JSON), loaded off the UI thread.
  */
 
 package app.morphe.extension.instagram.patches.story;
@@ -40,6 +39,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @SuppressWarnings({"unused", "deprecation"})
 public final class StoryLikeHistoryActivity extends Activity implements StoryLikeHistoryAdapter.Listener {
@@ -54,6 +55,12 @@ public final class StoryLikeHistoryActivity extends Activity implements StoryLik
     private static final int TEXT_PRIMARY = Color.WHITE;
     private static final int TEXT_SECONDARY = 0xFF9AA3AE;
     private static final int ACCENT = 0xFFE1306C;
+
+    private static final ExecutorService LOADER = Executors.newSingleThreadExecutor(runnable -> {
+        Thread thread = new Thread(runnable, "wagg13-story-likes-ui");
+        thread.setDaemon(true);
+        return thread;
+    });
 
     private final List<StoryLikeHistoryEntry> all = new ArrayList<>();
     private StoryLikeHistoryAdapter adapter;
@@ -92,10 +99,47 @@ public final class StoryLikeHistoryActivity extends Activity implements StoryLik
             getWindow().setNavigationBarColor(BG);
         }
         setContentView(buildRoot());
+        load();
+    }
 
-        // Phase 1: fake data. Phase 2 replaces this with StoryLikeHistory.entries(this).
-        all.addAll(mockEntries());
-        render();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        load();
+    }
+
+    // ---- loading -------------------------------------------------------------------------
+
+    /** Reads the history off the UI thread; the screen never blocks on the file. */
+    private void load() {
+        loading.setVisibility(View.VISIBLE);
+        errorView.setVisibility(View.GONE);
+        LOADER.execute(() -> {
+            List<StoryLikeHistoryEntry> entries;
+            try {
+                entries = StoryLikeHistory.entries(getApplicationContext());
+            } catch (Throwable t) {
+                Log.e(TAG, "load failed", t);
+                runOnUiThread(this::showError);
+                return;
+            }
+            List<StoryLikeHistoryEntry> copy = new ArrayList<>(entries);
+            runOnUiThread(() -> {
+                if (isFinishing()) return;
+                all.clear();
+                all.addAll(copy);
+                render();
+            });
+        });
+    }
+
+    private void showError() {
+        if (isFinishing()) return;
+        loading.setVisibility(View.GONE);
+        grid.setVisibility(View.GONE);
+        emptyState.setVisibility(View.GONE);
+        errorView.setText(pt() ? "Não foi possível ler o histórico." : "Could not read the history.");
+        errorView.setVisibility(View.VISIBLE);
     }
 
     // ---- layout --------------------------------------------------------------------------
@@ -386,6 +430,7 @@ public final class StoryLikeHistoryActivity extends Activity implements StoryLik
             if (item.getItemId() == 1) {
                 copyUsername(entry);
             } else {
+                StoryLikeHistory.remove(getApplicationContext(), entry.storyId);
                 all.remove(entry);
                 render();
             }
@@ -461,26 +506,5 @@ public final class StoryLikeHistoryActivity extends Activity implements StoryLik
         drawable.setStroke(dp(2), ACCENT);
         drawable.setCornerRadii(new float[]{0, 0, 0, 0, dp(6), dp(6), dp(6), dp(6)});
         return drawable;
-    }
-
-    /** Phase 1 fixture: covers normal, expired, missing-timestamp and missing-thumbnail cases. */
-    private static List<StoryLikeHistoryEntry> mockEntries() {
-        long now = System.currentTimeMillis();
-        long hour = 3_600_000L;
-        long minute = 60_000L;
-        List<StoryLikeHistoryEntry> entries = new ArrayList<>();
-        entries.add(new StoryLikeHistoryEntry("mock-1", "1", "neymarjr", "Neymar Jr",
-                now - 26 * hour, now - 20 * minute, null));
-        entries.add(new StoryLikeHistoryEntry("mock-2", "2", "leomessi", "Lionel Messi",
-                now - 2 * hour, now - hour, null));
-        entries.add(new StoryLikeHistoryEntry("mock-3", "3", "cristiano", "Cristiano Ronaldo",
-                now - 30 * hour, now - 3 * hour, null));
-        entries.add(new StoryLikeHistoryEntry("mock-4", "4", "anitta", "Anitta",
-                now - 12 * hour, now - 6 * hour, null));
-        entries.add(new StoryLikeHistoryEntry("mock-5", "5", "natanaelcanario", "Natanael Canario",
-                0L, now - 10 * hour, null));
-        entries.add(new StoryLikeHistoryEntry("mock-6", "6", "wagg13", "Wagg13",
-                now - 28 * hour, now - 23 * hour - 30 * minute, null));
-        return entries;
     }
 }
