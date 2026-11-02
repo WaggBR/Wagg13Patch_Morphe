@@ -24,6 +24,7 @@ import com.android.tools.smali.dexlib2.Opcode
 import com.android.tools.smali.dexlib2.iface.instruction.OneRegisterInstruction
 
 private const val EXTENSION_CLASS = "Lapp/morphe/extension/instagram/patches/story/StoryLikeHistoryActivity;"
+private const val RECORDER_CLASS = "Lapp/morphe/extension/instagram/patches/story/StoryLikeHistoryRecorder;"
 
 /**
  * Builds the `CharSequence[]` shown by the story "..." options dialog (452: LX/0YmS.A0r).
@@ -46,6 +47,23 @@ internal object StoryOptionsClickFingerprint : Fingerprint(
     returnType = "V",
     strings = listOf("explore_viewer", "friendships/mute_friend_reel/%s/", "[INTERNAL] Pause Playback"),
     custom = { method, _ -> method.parameterTypes.lastOrNull() == "Ljava/lang/CharSequence;" },
+)
+
+/**
+ * Story viewer's like-state setter (452: LX/0ATY.FhI). The heart button
+ * (LX/0hbE.onClick) is its only caller and hands over the state the user asked for, so a single
+ * place sees every like — unlike `story_interactions/bulk_story_like/`, which is an internal
+ * debug entry of the "..." menu, not the heart.
+ */
+internal object StoryLikeToggleFingerprint : Fingerprint(
+    definingClass = "LX/0ATY;",
+    name = "FhI",
+    returnType = "V",
+    parameters = listOf(
+        "LX/04gU;",
+        "Lcom/instagram/model/reels/ReelItem;",
+        "LX/02z4;",
+    ),
 )
 
 @Suppress("unused")
@@ -109,6 +127,16 @@ val storyLikeHistoryPatch = bytecodePatch(
                 return-void
                 """.trimIndent(),
                 ExternalLabel("wagg13_story_like_history_original", getInstruction(0)),
+            )
+        }
+
+        // Heart tap: record the like before Instagram applies it.
+        StoryLikeToggleFingerprint.method.apply {
+            addInstructions(
+                0,
+                """
+                invoke-static {p1, p2}, $RECORDER_CLASS->onLikeStateChanged(Ljava/lang/Object;Ljava/lang/Object;)V
+                """.trimIndent(),
             )
         }
     }
