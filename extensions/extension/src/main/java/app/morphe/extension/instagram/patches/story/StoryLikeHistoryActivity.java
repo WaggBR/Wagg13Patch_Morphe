@@ -405,6 +405,38 @@ public final class StoryLikeHistoryActivity extends Activity implements StoryLik
         }
     }
 
+    // ---- "..." menu hooks (called from the patched story options dialog) -----------------
+
+    /** Label of the entry appended to the story "..." menu. */
+    private static String menuLabel() {
+        return pt() ? "Curtidas em Stories" : "Story likes";
+    }
+
+    /** Appends our entry to the labels of the story "..." menu and returns the new array. */
+    public static CharSequence[] addButtons(CharSequence[] items) {
+        try {
+            CharSequence[] out = new CharSequence[items.length + 1];
+            System.arraycopy(items, 0, out, 0, items.length);
+            out[items.length] = menuLabel();
+            return out;
+        } catch (Throwable t) {
+            Log.e(TAG, "addButtons failed", t);
+            return items;
+        }
+    }
+
+    /** Handles a tap on a story "..." menu entry; true when the entry was ours. */
+    public static boolean buttonAction(CharSequence text, Context context) {
+        try {
+            if (text == null || !menuLabel().contentEquals(text)) return false;
+            open(context);
+            return true;
+        } catch (Throwable t) {
+            Log.e(TAG, "buttonAction failed", t);
+            return false;
+        }
+    }
+
     // ---- helpers -------------------------------------------------------------------------
 
     private static boolean pt() {
