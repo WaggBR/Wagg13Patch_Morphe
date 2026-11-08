@@ -99,10 +99,10 @@ A quick overview of what each app's patches change. Select an app to jump to its
   </tr>
   <tr>
     <td width="50%" valign="middle">
-      <a href="#app-sleep-monitor"><img src="assets/readme/app-icons/sleep-monitor.svg" width="56" height="56" align="left" alt="Sleep Monitor icon" /></a>
-      <strong><a href="#app-sleep-monitor">Sleep Monitor</a></strong><br />
-      <sub>2 patches · v3.2.0.1</sub><br />
-      <sub>Local VIP state and PairIP compatibility for re-signed builds.</sub>
+      <a href="#app-instagram"><img src="assets/readme/app-icons/instagram.svg" width="56" height="56" align="left" alt="Instagram icon" /></a>
+      <strong><a href="#app-InstaPrime">InstaPrime</a></strong><br />
+      <sub>1 patches · v435.0.0.37.76</sub><br />
+      <sub>Local VIP-Mod state.</sub>
     </td>
     <td width="50%" valign="middle">
       <a href="#app-notifications-simulator"><img src="assets/readme/app-icons/notifications-simulator.svg" width="56" height="56" align="left" alt="Notifications Simulator icon" /></a>
@@ -179,10 +179,9 @@ Open this link on your Android device with Morphe Manager installed:
 The list below contains the complete patch-level index, including exact supported versions and short descriptions. Expand an app to inspect its patches.
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.5.0](https://github.com/WaggBR/Wagg13Patch_Morphe/releases/tag/v1.5.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;50 patches total
-<a id="app-buzzcast"></a>
-<details>
-<summary><img src="assets/readme/app-icons/buzzcast.svg" width="24" height="24" align="absmiddle" alt="" /> <strong>BuzzCast</strong> &nbsp; <sub>11 patches</sub></summary>
+> **[v1.5.0](https://github.com/WaggBR/Wagg13Patch_Morphe/releases/tag/v1.5.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;46 patches total
+<details open>
+<summary>📦 BuzzCast&nbsp;&nbsp;•&nbsp;&nbsp;11 patches</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -206,26 +205,8 @@ The list below contains the complete patch-level index, including exact supporte
 
 </details>
 
-<a id="app-sleep-monitor"></a>
-<details>
-<summary><img src="assets/readme/app-icons/sleep-monitor.svg" width="24" height="24" align="absmiddle" alt="" /> <strong>Sleep Monitor · Sono Rastreador</strong> &nbsp; <sub>2 patches</sub></summary>
-<br>
-
-**🎯 Supported versions:**
-
-| v3.2.0.1 |
-| :---: |
-
-| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
-|----------|----------------|-----------|
-| [Bypass PairIP (Sleep Monitor)](#bypass-pairip-sleep-monitor) | Prevents the app from crashing after being patched. |  |
-| [Enable Premium](#enable-premium) | Unlocks VIP features in Sleep Monitor. |  |
-
-</details>
-
-<a id="app-picsart"></a>
-<details>
-<summary><img src="assets/readme/app-icons/picsart.svg" width="24" height="24" align="absmiddle" alt="" /> <strong>Picsart</strong> &nbsp; <sub>4 patches</sub></summary>
+<details open>
+<summary>📦 Picsart&nbsp;&nbsp;•&nbsp;&nbsp;4 patches</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -242,9 +223,8 @@ The list below contains the complete patch-level index, including exact supporte
 
 </details>
 
-<a id="app-pinterest"></a>
-<details>
-<summary><img src="assets/readme/app-icons/pinterest.svg" width="24" height="24" align="absmiddle" alt="" /> <strong>Pinterest</strong> &nbsp; <sub>1 patch</sub></summary>
+<details open>
+<summary>📦 Pinterest&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -258,9 +238,8 @@ The list below contains the complete patch-level index, including exact supporte
 
 </details>
 
-<a id="app-bisbi"></a>
-<details>
-<summary><img src="assets/readme/app-icons/bisbi.svg" width="24" height="24" align="absmiddle" alt="" /> <strong>Bisbi</strong> &nbsp; <sub>1 patch</sub></summary>
+<details open>
+<summary>📦 Bisbi&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -271,12 +250,11 @@ The list below contains the complete patch-level index, including exact supporte
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
 | [Enable Premium](#enable-premium) | Unlocks premium features in Bisbi. |  |
- 
+
 </details>
 
-<a id="app-instagram-instants"></a>
-<details>
-<summary><img src="assets/readme/app-icons/instagram-instants.svg" width="24" height="24" align="absmiddle" alt="" /> <strong>Instagram Instants</strong> &nbsp; <sub>1 patch</sub></summary>
+<details open>
+<summary>📦 Instagram Instants&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -290,9 +268,8 @@ The list below contains the complete patch-level index, including exact supporte
 
 </details>
 
-<a id="app-telegraph"></a>
-<details>
-<summary><img src="assets/readme/app-icons/telegraph.svg" width="24" height="24" align="absmiddle" alt="" /> <strong>Telegraph · Graph Messenger</strong> &nbsp; <sub>8 patches</sub></summary>
+<details open>
+<summary>📦 Telegraph (Graph Messenger)&nbsp;&nbsp;•&nbsp;&nbsp;8 patches</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -313,9 +290,8 @@ The list below contains the complete patch-level index, including exact supporte
 
 </details>
 
-<a id="app-car-scanner"></a>
-<details>
-<summary><img src="assets/readme/app-icons/car-scanner.svg" width="24" height="24" align="absmiddle" alt="" /> <strong>Car Scanner</strong> &nbsp; <sub>2 patches</sub></summary>
+<details open>
+<summary>📦 Car Scanner&nbsp;&nbsp;•&nbsp;&nbsp;2 patches</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -330,9 +306,8 @@ The list below contains the complete patch-level index, including exact supporte
 
 </details>
 
-<a id="app-notifications-simulator"></a>
-<details>
-<summary><img src="assets/readme/app-icons/notifications-simulator.svg" width="24" height="24" align="absmiddle" alt="" /> <strong>Notifications Simulator</strong> &nbsp; <sub>1 patch</sub></summary>
+<details open>
+<summary>📦 Notifications Simulator&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -346,9 +321,8 @@ The list below contains the complete patch-level index, including exact supporte
 
 </details>
 
-<a id="app-instagram"></a>
-<details>
-<summary><img src="assets/readme/app-icons/instagram.svg" width="24" height="24" align="absmiddle" alt="" /> <strong>Instagram</strong> &nbsp; <sub>3 patches</sub></summary>
+<details open>
+<summary>📦 Instagram&nbsp;&nbsp;•&nbsp;&nbsp;3 patches</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -364,9 +338,8 @@ The list below contains the complete patch-level index, including exact supporte
 
 </details>
 
-<a id="app-tinder"></a>
-<details>
-<summary><img src="assets/readme/app-icons/tinder.svg" width="24" height="24" align="absmiddle" alt="" /> <strong>Tinder</strong> &nbsp; <sub>10 patches</sub></summary>
+<details open>
+<summary>📦 Tinder&nbsp;&nbsp;•&nbsp;&nbsp;10 patches</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -389,9 +362,8 @@ The list below contains the complete patch-level index, including exact supporte
 
 </details>
 
-<a id="app-image-video-date-fixer"></a>
-<details>
-<summary><img src="assets/readme/app-icons/image-video-date-fixer.svg" width="24" height="24" align="absmiddle" alt="" /> <strong>Image &amp; Video Date Fixer</strong> &nbsp; <sub>1 patch</sub></summary>
+<details open>
+<summary>📦 Image & Video Date Fixer&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -405,9 +377,8 @@ The list below contains the complete patch-level index, including exact supporte
 
 </details>
 
-<a id="app-native-camera"></a>
-<details>
-<summary><img src="assets/readme/app-icons/native-camera.svg" width="24" height="24" align="absmiddle" alt="" /> <strong>Native Camera</strong> &nbsp; <sub>1 patch</sub></summary>
+<details open>
+<summary>📦 Native Camera&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -421,9 +392,8 @@ The list below contains the complete patch-level index, including exact supporte
 
 </details>
 
-<a id="app-icsee"></a>
-<details>
-<summary><img src="assets/readme/app-icons/icsee.svg" width="24" height="24" align="absmiddle" alt="" /> <strong>iCSee</strong> &nbsp; <sub>2 patches</sub></summary>
+<details open>
+<summary>📦 iCSee&nbsp;&nbsp;•&nbsp;&nbsp;2 patches</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -578,15 +548,15 @@ The list below contains the complete patch-level index, including exact supporte
 - **Compatibility:** v7.9.5_G only (arm64-v8a; the app is obfuscated, so the patches are pinned to this build)
 - **Status:** ✅ Active & Maintained
 
-#### 😴 Sleep Monitor — Premium Unlock
-- **Package:** `com.sleepmonitor.aio`
+#### 🏴‍☠️ InstaPrime — Premium Unlock
+- **Package:** `com.instaprime.android`
 - **Functionality:**
-  - **Bypass PairIP:** prevents the app from crashing after being patched.
-  - **Enable Premium:** makes the app treat the current account as VIP (local state).
-- **Compatibility:** v3.2.0.1 (versionCode 643) only
-- **Status:** ✅ Active & Maintained
-- **Limitations:** Premium is a local flag. Features validated by Sleep Monitor's servers remain unavailable.
-
+  - **ALERTS:** Forced update notifications have been disabled.
+  - **Enable Premium:** makes the app treat the current account as infinite VIP (local state).
+- **Compatibility:** v435.0.0.37.76 (version Mod 7.2 CLONE) only
+- **Status:** ✅ Active & Maintained?
+- **Limitations:** Premium is a local flag. "VIEW BLOCKED PROFILE" is provided by the server; it will not work!.
+- **GENERAL TIP:** Don't pay for APK mods! 'long live open source'!
 
 ---
 
@@ -713,7 +683,7 @@ This project is licensed under the **GNU General Public License v3.0 (GPLv3)** �
 - Respect the terms of service of the applications being patched.
 - This tool should only be used for personal, non-commercial purposes.
 - Always download original APKs from official sources.
-- This project is independent and not affiliated with Tinder, Google, Bisbi, Instagram, Instants, BuzzCast, Car Scanner, Pinterest, Picsart, Image & Video Date Fixer, Notifications Simulator, Telegraph (Graph Messenger), iCSee, Sleep Monitor, or Morphe. All trademarks are the property of their respective owners.
+- This project is independent and not affiliated with Tinder, Google, Bisbi, Instagram, Instants, BuzzCast, Car Scanner, Pinterest, Picsart, Image & Video Date Fixer, Notifications Simulator, Telegraph (Graph Messenger), iCSee, InstaPime, or Morphe. All trademarks are the property of their respective owners.
 
 ---
 

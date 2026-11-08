@@ -152,6 +152,37 @@
       "options": []
     },
     {
+      "name": "Enable Premium",
+      "description": "Mantém o InstaPrime sempre com premium ativo (lê unlock_expiry como 2100) e desliga os bloqueios A36/A38.",
+      "default": true,
+      "dependencies": [
+        "BytecodePatch",
+        "ResourcePatch",
+        "BytecodePatch",
+        "BytecodePatch"
+      ],
+      "compatiblePackages": [
+        {
+          "packageName": "com.instaprime.android",
+          "name": null,
+          "description": null,
+          "apkFileType": null,
+          "appIconColor": null,
+          "signatures": null,
+          "targets": [
+            {
+              "version": "435.0.0.37.76",
+              "versionCodes": null,
+              "isExperimental": false,
+              "minSdk": null,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
       "name": "Hide Try PRO button",
       "description": "Removes the \"Try PRO\" pill from the home toolbar and the create tab.",
       "default": true,
@@ -412,7 +443,8 @@
         "BytecodePatch",
         "BytecodePatch",
         "ResourcePatch",
-        "BytecodePatch"
+        "BytecodePatch",
+        "ResourcePatch"
       ],
       "compatiblePackages": [
         {
@@ -968,7 +1000,9 @@
       "name": "Tinder Remove Ads",
       "description": "Removes the ads shown between profiles in the swipe deck.",
       "default": true,
-      "dependencies": [],
+      "dependencies": [
+        "BytecodePatch"
+      ],
       "compatiblePackages": [
         {
           "packageName": "com.tinder",
@@ -1046,7 +1080,9 @@
       "name": "Tinder Unlimited Rewind",
       "description": "Lets you rewind without the limit or paywall check.",
       "default": true,
-      "dependencies": [],
+      "dependencies": [
+        "BytecodePatch"
+      ],
       "compatiblePackages": [
         {
           "packageName": "com.tinder",
