@@ -124,6 +124,7 @@ public final class StoryLikeHistoryActivity extends Activity implements StoryLik
                 return;
             }
             List<StoryLikeHistoryEntry> copy = new ArrayList<>(entries);
+            Log.i(TAG, "loaded " + copy.size() + " entries");
             runOnUiThread(() -> {
                 if (isFinishing()) return;
                 all.clear();
@@ -460,9 +461,15 @@ public final class StoryLikeHistoryActivity extends Activity implements StoryLik
     /** Appends our entry to the labels of the story "..." menu and returns the new array. */
     public static CharSequence[] addButtons(CharSequence[] items) {
         try {
+            Log.i(TAG, "addButtons items=" + (items == null ? "null" : items.length));
+            if (items == null) {
+                Log.e(TAG, "addButtons items was null");
+                return null;
+            }
             CharSequence[] out = new CharSequence[items.length + 1];
             System.arraycopy(items, 0, out, 0, items.length);
             out[items.length] = menuLabel();
+            Log.i(TAG, "addButtons appended -> len=" + out.length + " label=" + menuLabel());
             return out;
         } catch (Throwable t) {
             Log.e(TAG, "addButtons failed", t);
@@ -473,7 +480,9 @@ public final class StoryLikeHistoryActivity extends Activity implements StoryLik
     /** Handles a tap on a story "..." menu entry; true when the entry was ours. */
     public static boolean buttonAction(CharSequence text, Context context) {
         try {
+            Log.i(TAG, "menu action text=" + text);
             if (text == null || !menuLabel().contentEquals(text)) return false;
+            Log.i(TAG, "opening story like history");
             open(context);
             return true;
         } catch (Throwable t) {

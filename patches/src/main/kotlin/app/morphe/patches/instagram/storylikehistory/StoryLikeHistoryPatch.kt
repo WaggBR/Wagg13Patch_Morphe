@@ -27,16 +27,20 @@ private const val EXTENSION_CLASS = "Lapp/morphe/extension/instagram/patches/sto
 private const val RECORDER_CLASS = "Lapp/morphe/extension/instagram/patches/story/StoryLikeHistoryRecorder;"
 
 /**
- * Builds the `CharSequence[]` shown by the story "..." options dialog (452: LX/0YmS.A0r).
- * It is the only method returning that array that also contains the internal pause entry.
+ * Builders of the `CharSequence[]` shown by the story "..." bottom sheet. 452 splits it into
+ * three methods that each build a list and return the same CharSequence[]:
+ * - `A0r` is the overflow sheet (it also carries the `[INTERNAL] Pause Playback` debug entry),
+ * - `A0s` is the regular story action sheet,
+ * - `A0t` is the story-highlight action sheet.
+ *
+ * The caller `LX/0ASJ` (methods A06/A0X) dispatches to exactly one of them per open, so every
+ * one must carry our entry. Anchored on the stable class + method name (both Redex names for the
+ * single supported version), the same way the like hook anchors `LX/0ATY.FhI`.
  */
-internal object StoryOptionsItemsFingerprint : Fingerprint(
-    returnType = "[Ljava/lang/CharSequence;",
-    strings = listOf("[INTERNAL] Pause Playback"),
-    custom = { method, _ ->
-        method.parameterTypes.isNotEmpty() &&
-            method.implementation?.instructions?.any { it.opcode == Opcode.RETURN_OBJECT } == true
-    },
+internal val storyMenuBuilders = listOf(
+    Fingerprint(definingClass = "LX/0YmS;", name = "A0r"),
+    Fingerprint(definingClass = "LX/0YmS;", name = "A0s"),
+    Fingerprint(definingClass = "LX/0YmS;", name = "A0t"),
 )
 
 /**
@@ -50,10 +54,17 @@ internal object StoryOptionsClickFingerprint : Fingerprint(
 )
 
 /**
- * Story viewer's like-state setter (452: LX/0ATY.FhI). The heart button
- * (LX/0hbE.onClick) is its only caller and hands over the state the user asked for, so a single
- * place sees every like — unlike `story_interactions/bulk_story_like/`, which is an internal
- * debug entry of the "..." menu, not the heart.
+ * Story viewer's like-state setters (452). One of the viewer's click listeners
+ * (LX/0hbE.onClick) calls `LX/0nzj.FhI(LX/04gU; ReelItem; LX/02z4;)`, which dispatches to the
+ * viewer's handler. Two classes define that exact shape:
+ * - `LX/0ATY.FhI` is the real one (delegates to `LX/0kzn.FhG`, the like executor);
+ * - `LX/0H13.FhI` is a no-op singleton (only instantiated once, in `LX/0H14.<clinit>`).
+ *
+ * Both are hooked as a safety net: the heart icon users actually tap goes through
+ * {@link StoryHeartToggleFingerprint} below, but any tap that does reach this older path
+ * is still captured. The recorder itself filters non-LIKED and is idempotent, so hooking
+ * every path is safe. Unlike `story_interactions/bulk_story_like/`, which is an internal
+ * debug entry of the "..." menu, these see real heart taps.
  */
 internal object StoryLikeToggleFingerprint : Fingerprint(
     definingClass = "LX/0ATY;",
@@ -64,6 +75,50 @@ internal object StoryLikeToggleFingerprint : Fingerprint(
         "Lcom/instagram/model/reels/ReelItem;",
         "LX/02z4;",
     ),
+)
+
+internal object StoryLikeToggleNoOpFingerprint : Fingerprint(
+    definingClass = "LX/0H13;",
+    name = "FhI",
+    returnType = "V",
+    parameters = listOf(
+        "LX/04gU;",
+        "Lcom/instagram/model/reels/ReelItem;",
+        "LX/02z4;",
+    ),
+)
+
+/**
+ * Terminal like executor (452: LX/0AkV.FhG). Every like path converges here: `LX/0ATY.FhI`
+ * delegates to `LX/0kzn.FhG`, `LX/0ASJ.FhG` forwards to the same interface, and `LX/0AkV.FhG`
+ * (37 registers, reads the story's Media and like state) is the only non-trivial
+ * implementation. Hooked with the same recorder so likes that bypass `FhI` (double-tap and
+ * other entry points) are still captured; the recorder's LIKED filter and idempotent `add()`
+ * make the extra hook safe.
+ */
+internal object StoryLikeExecutorFingerprint : Fingerprint(
+    definingClass = "LX/0AkV;",
+    name = "FhG",
+    returnType = "V",
+    parameters = listOf(
+        "LX/04gU;",
+        "LX/03sm;",
+        "Lcom/instagram/model/reels/ReelItem;",
+        "LX/02z4;",
+    ),
+)
+
+/** Heart-icon tap entry point (452: LX/09TS.A0W). The story viewer's other click listener
+ * (LX/0hbD.onClick) calls it after haptic feedback; it carries no params, so the holder
+ * object itself ({@code p0}) is handed to the recorder, which recovers the story and the
+ * tap's direction. Also reached via LX/0A3F.A02, likewise from that same click listener,
+ * so every call here is a user tap, never background work.
+ */
+internal object StoryHeartToggleFingerprint : Fingerprint(
+    definingClass = "LX/09TS;",
+    name = "A0W",
+    returnType = "V",
+    parameters = listOf(),
 )
 
 @Suppress("unused")
@@ -91,19 +146,22 @@ val storyLikeHistoryPatch = bytecodePatch(
     extendWith("extensions/extension.mpe")
 
     execute {
-        // "..." menu: append our label to the array being returned by the builder.
-        StoryOptionsItemsFingerprint.method.apply {
-            val returnIndex = implementation!!.instructions.indexOfFirst { it.opcode == Opcode.RETURN_OBJECT }
-            if (returnIndex < 0) throw PatchException("Story options builder has no return-object")
-            val arrayRegister = getInstruction<OneRegisterInstruction>(returnIndex).registerA
+        // "..." menu: append our label to the array each builder returns. All three converge on a
+        // single `return-object` (after their `toArray`), so hooking that point covers every path.
+        storyMenuBuilders.forEach { fingerprint ->
+            fingerprint.method.apply {
+                val returnIndex = implementation!!.instructions.indexOfFirst { it.opcode == Opcode.RETURN_OBJECT }
+                if (returnIndex < 0) throw PatchException("Story options builder has no return-object")
+                val arrayRegister = getInstruction<OneRegisterInstruction>(returnIndex).registerA
 
-            addInstructions(
-                returnIndex,
-                """
-                invoke-static {v$arrayRegister}, $EXTENSION_CLASS->addButtons([Ljava/lang/CharSequence;)[Ljava/lang/CharSequence;
-                move-result-object v$arrayRegister
-                """.trimIndent(),
-            )
+                addInstructions(
+                    returnIndex,
+                    """
+                    invoke-static {v$arrayRegister}, $EXTENSION_CLASS->addButtons([Ljava/lang/CharSequence;)[Ljava/lang/CharSequence;
+                    move-result-object v$arrayRegister
+                    """.trimIndent(),
+                )
+            }
         }
 
         // "..." menu click: intercept our label before Instagram's own handling.
@@ -130,12 +188,51 @@ val storyLikeHistoryPatch = bytecodePatch(
             )
         }
 
-        // Heart tap: record the like before Instagram applies it.
+        // Heart tap: record the like before Instagram applies it. Both FhI shapes are
+        // hooked (real handler + no-op singleton); the recorder filters non-LIKED and is
+        // idempotent, so whichever object the viewer holds, the tap is captured once.
         StoryLikeToggleFingerprint.method.apply {
             addInstructions(
                 0,
                 """
                 invoke-static {p1, p2}, $RECORDER_CLASS->onLikeStateChanged(Ljava/lang/Object;Ljava/lang/Object;)V
+                """.trimIndent(),
+            )
+        }
+        StoryLikeToggleNoOpFingerprint.method.apply {
+            addInstructions(
+                0,
+                """
+                invoke-static {p1, p2}, $RECORDER_CLASS->onLikeStateChanged(Ljava/lang/Object;Ljava/lang/Object;)V
+                """.trimIndent(),
+            )
+        }
+
+        // Terminal executor: catches likes that bypass FhI (double-tap and other entries).
+        // FhG params are (action, 03sm, reelItem, 02z4); the reel (p3) is not consecutive
+        // with the action (p1), so both are moved to free locals first (v0/v1 are locals in
+        // this 37-register method and undefined at index 0). Same pattern as the click hook.
+        StoryLikeExecutorFingerprint.method.apply {
+            addInstructions(
+                0,
+                """
+                move-object/from16 v0, p1
+                move-object/from16 v1, p3
+                invoke-static {v0, v1}, $RECORDER_CLASS->onLikeStateChanged(Ljava/lang/Object;Ljava/lang/Object;)V
+                """.trimIndent(),
+            )
+        }
+
+        // ---- heart-icon tap: the path users actually take ----------------------------
+        // The heart icon is handled by a different listener (LX/0hbD.onClick), which calls
+        // LX/09TS.A0W after haptic feedback. That method carries no params, so its holder
+        // (p0) is passed; the recorder recovers story + direction from it.
+        StoryHeartToggleFingerprint.method.apply {
+            addInstructions(
+                0,
+                """
+                move-object/from16 v0, p0
+                invoke-static {v0}, $RECORDER_CLASS->onStoryToggle(Ljava/lang/Object;)V
                 """.trimIndent(),
             )
         }
