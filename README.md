@@ -179,7 +179,7 @@ Open this link on your Android device with Morphe Manager installed:
 The list below contains the complete patch-level index, including exact supported versions and short descriptions. Expand an app to inspect its patches.
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.5.0](https://github.com/WaggBR/Wagg13Patch_Morphe/releases/tag/v1.5.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;46 patches total
+> **[v1.6.0](https://github.com/WaggBR/Wagg13Patch_Morphe/releases/tag/v1.6.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;47 patches total
 <details open>
 <summary>📦 BuzzCast&nbsp;&nbsp;•&nbsp;&nbsp;11 patches</summary>
 <br>
@@ -250,6 +250,21 @@ The list below contains the complete patch-level index, including exact supporte
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
 | [Enable Premium](#enable-premium) | Unlocks premium features in Bisbi. |  |
+
+</details>
+
+<details open>
+<summary>📦 com.instaprime.android&nbsp;&nbsp;•&nbsp;&nbsp;1 patch</summary>
+<br>
+
+**🎯 Supported versions:**
+
+| 435.0.0.37.76 |
+| :---: |
+
+| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
+|----------|----------------|-----------|
+| [Enable Premium](#enable-premium) | Enables unlimited local PREMIUM subscription in the mod's functions and remove forced update. |  |
 
 </details>
 

@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "patches": [
     {
       "name": "Block app open reports",
@@ -153,7 +153,7 @@
     },
     {
       "name": "Enable Premium",
-      "description": "Mantém o InstaPrime sempre com premium ativo (lê unlock_expiry como 2100) e desliga os bloqueios A36/A38.",
+      "description": "Enables unlimited local PREMIUM subscription in the mod's functions and remove forced update.",
       "default": true,
       "dependencies": [
         "BytecodePatch",

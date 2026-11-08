@@ -1,3 +1,9 @@
+## [1.6.0](https://github.com/WaggBR/Wagg13Patch_Morphe/compare/v1.5.0...v1.6.0) (2026-11-08)
+
+### ✨ New Features
+
+* add InstaPrime 7.2 ([c8c8799](https://github.com/WaggBR/Wagg13Patch_Morphe/commit/c8c879914b1804c576acdb9d85472050327ede35))
+
 ## [1.5.0](https://github.com/WaggBR/Wagg13Patch_Morphe/compare/v1.4.0...v1.5.0) (2026-11-08)
 
 ### ✨ New Features
