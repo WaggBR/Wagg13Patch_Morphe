@@ -412,7 +412,8 @@
         "BytecodePatch",
         "BytecodePatch",
         "ResourcePatch",
-        "BytecodePatch"
+        "BytecodePatch",
+        "ResourcePatch"
       ],
       "compatiblePackages": [
         {
@@ -968,7 +969,9 @@
       "name": "Tinder Remove Ads",
       "description": "Removes the ads shown between profiles in the swipe deck.",
       "default": true,
-      "dependencies": [],
+      "dependencies": [
+        "BytecodePatch"
+      ],
       "compatiblePackages": [
         {
           "packageName": "com.tinder",
@@ -1046,7 +1049,9 @@
       "name": "Tinder Unlimited Rewind",
       "description": "Lets you rewind without the limit or paywall check.",
       "default": true,
-      "dependencies": [],
+      "dependencies": [
+        "BytecodePatch"
+      ],
       "compatiblePackages": [
         {
           "packageName": "com.tinder",
