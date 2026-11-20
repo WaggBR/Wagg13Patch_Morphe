@@ -179,7 +179,7 @@ Open this link on your Android device with Morphe Manager installed:
 The list below contains the complete patch-level index, including exact supported versions and short descriptions. Expand an app to inspect its patches.
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.0.0](https://github.com/WaggBR/Wagg13Patch_Morphe/releases/tag/v1.0.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;53 patches total
+> **[v1.7.0-dev.1](https://github.com/WaggBR/Wagg13Patch_Morphe/releases/tag/v1.7.0-dev.1)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;53 patches total
 <details open>
 <summary>📦 BuzzCast&nbsp;&nbsp;•&nbsp;&nbsp;11 patches</summary>
 <br>
